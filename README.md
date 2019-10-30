@@ -22,7 +22,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-See #1 for example !
+See [#1](https://github.com/thollander/actions-comment-pull-request/pull/1) for example !
 
 :information_source: : Make sure to listen to `pull_request` events. 
 Otherwise, it will not be able to comment the PR and you'll have an error. 
