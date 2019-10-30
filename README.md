@@ -37,3 +37,5 @@ It is handled by Typescript compiler.
 ```sh
 $ npm run build
 ```
+
+PS : This is just a modification to create a PR.
