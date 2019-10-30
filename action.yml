@@ -1,4 +1,7 @@
 name: 'Comment Pull Request'
+branding:
+  icon: 'message-circle'  
+  color: 'blue'
 description: 'Comments a pull request with the provided message'
 inputs: 
   message:
