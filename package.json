@@ -1,0 +1,39 @@
+{
+  "name": "actions-comment-pull-request",
+  "version": "1.0.0",
+  "description": "GitHub action for commenting pull-request",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write **/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thollander/actions-comment-pull-request"
+  },
+  "keywords": [
+    "actions",
+    "container",
+    "pull-request",
+    "comment",
+    "message"
+  ],
+  "author": "Térence Hollander",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thollander/actions-comment-pull-request/issues"
+  },
+  "homepage": "https://github.com/thollander/actions-comment-pull-request#readme",
+  "dependencies": {
+    "@actions/core": "^1.0.0",
+    "@actions/io": "^1.0.0",
+    "@actions/exec": "^1.0.0",
+    "@actions/github": "^1.0.0",
+    "@actions/tool-cache": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.4",
+    "prettier": "^1.17.1",
+    "typescript": "^3.5.1"
+  }
+}

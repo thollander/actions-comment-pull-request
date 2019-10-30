@@ -1,0 +1,15 @@
+name: 'Comment Pull Request'
+description: 'Comments a pull request with the provided message'
+inputs: 
+  message:
+    description: 'Message that should be printed in the pull request'
+    required: true
+  GITHUB_TOKEN:
+    description: 'Github token of the repository (automatically created by Github)'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.message }}
+    - ${{ inputs.GITHUB_TOKEN }}
