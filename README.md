@@ -1,6 +1,7 @@
 # Comment Pull Request - GitHub Actions
 
 A GitHub action that comments with a given message the pull request linked to the pushed branch.
+You can even put dynamic data thanks to [Contexts and expression syntax](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/contexts-and-expression-syntax-for-github-actions).
 
 ## Usage
 
@@ -16,13 +17,13 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Comment PR
-        uses: thollander/actions-comment-pull-request
+        uses: thollander/actions-comment-pull-request@master
         with:
           message: 'Example of message !'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-See [#1](https://github.com/thollander/actions-comment-pull-request/pull/1) for example !
+See examples in [opened PR](https://github.com/thollander/actions-comment-pull-request/pulls) !
 
 :information_source: : Make sure to listen to `pull_request` events. 
 Otherwise, it will not be able to comment the PR and you'll have an error. 
