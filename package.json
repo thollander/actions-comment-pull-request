@@ -19,7 +19,7 @@
     "message"
   ],
   "author": "Térence Hollander",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/thollander/actions-comment-pull-request/issues"
   },
