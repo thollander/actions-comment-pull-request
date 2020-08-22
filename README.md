@@ -1,5 +1,22 @@
 # Comment Pull Request - GitHub Actions
 
+## DISCLAIMER
+
+If you prefer not to download a full action, this can now be easily done thanks to [github scripts](https://github.com/actions/github-script).
+
+```yml
+- name: 'Comment PR'
+  uses: actions/github-script@0.3.0
+  if: github.event_name == 'pull_request'
+  with:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    script: |
+      const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
+      github.issues.createComment({ issue_number, owner, repo, body: 'Hello world ! 👋' });
+```
+
+## What is it ?
+
 A GitHub action that comments with a given message the pull request linked to the pushed branch.
 You can even put dynamic data thanks to [Contexts and expression syntax](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/contexts-and-expression-syntax-for-github-actions).
 
