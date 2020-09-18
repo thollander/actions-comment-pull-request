@@ -9,7 +9,7 @@ If you prefer not to download a full action, this can now be easily done thanks 
   uses: actions/github-script@0.3.0
   if: github.event_name == 'pull_request'
   with:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    github-token: ${{ secrets.GITHUB_TOKEN }}
     script: |
       const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
       github.issues.createComment({ issue_number, owner, repo, body: 'Hello world ! 👋' });
