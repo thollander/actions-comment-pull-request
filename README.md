@@ -42,8 +42,7 @@ jobs:
 
 See examples in [opened PR](https://github.com/thollander/actions-comment-pull-request/pulls) !
 
-:information_source: : Make sure to listen to `pull_request` events. 
-Otherwise, it will not be able to comment the PR and you'll have an error. 
+:information_source: : Add `if: ${{ github.event_name == 'pull_request' }}` to this Action's step if the workflow is also trigger by events other than `pull_request` events.
 
 ## Contributing
 
