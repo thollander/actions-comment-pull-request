@@ -42,7 +42,7 @@ jobs:
 
 See examples in [opened PR](https://github.com/thollander/actions-comment-pull-request/pulls) !
 
-:information_source: : Add `if: ${{ github.event_name == 'pull_request' }}` to this Action's step if the workflow is also trigger by events other than `pull_request` events.
+:information_source: : Add `if: ${{ github.event_name == 'pull_request' }}` to this Action's step if your workflow is not only triggered by a `pull_request` event. It will ensure that you don't throw an error on this step. 
 
 ## Contributing
 
