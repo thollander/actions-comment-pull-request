@@ -1,0 +1,15 @@
+on: pull_request
+
+jobs:
+  test_comment_pr:
+    runs-on: ubuntu-latest
+    name: (NRT) Comment PR
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Comment
+        uses: ./
+        with:
+          message: 'Current branch is `${{ github.head_ref }}`.'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
