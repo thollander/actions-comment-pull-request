@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Comment PR
-        uses: thollander/actions-comment-pull-request@main
+        uses: thollander/actions-comment-pull-request@v1
         
         with:
           message: 'Example of message !'
