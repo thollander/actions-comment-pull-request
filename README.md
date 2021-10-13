@@ -20,7 +20,7 @@ jobs:
 
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v1
-        
+
         with:
           message: 'Example of message !'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -28,14 +28,27 @@ jobs:
 
 See examples in [opened PR](https://github.com/thollander/actions-comment-pull-request/pulls) !
 
-:information_source: : Add `if: ${{ github.event_name == 'pull_request' }}` to this Action's step if your workflow is not only triggered by a `pull_request` event. It will ensure that you don't throw an error on this step. 
+:information_source: : Add `if: ${{ github.event_name == 'pull_request' }}` to this Action's step if your workflow is not only triggered by a `pull_request` event. It will ensure that you don't throw an error on this step.
+
+## Specifying which pull request to comment on
+You can explicitly input which pull request should be commented on by passing the `pr_number` input:
+```
+...
+- name: Comment PR
+  uses: thollander/actions-comment-pull-request@v1
+
+  with:
+    message: 'Example of message !'
+    pr_number: 123 # This will comment on pull request #123
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
 
 ## Contributing
 
-### Build 
+### Build
 
-The build steps transpiles the `src/main.ts` to `lib/main.js` which is used in the Docker container. 
-It is handled by Typescript compiler. 
+The build steps transpiles the `src/main.ts` to `lib/main.js` which is used in the Docker container.
+It is handled by Typescript compiler.
 
 ```sh
 $ npm run build
