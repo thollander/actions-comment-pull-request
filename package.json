@@ -26,7 +26,7 @@
   "homepage": "https://github.com/thollander/actions-comment-pull-request#readme",
   "dependencies": {
     "@actions/core": "^1.2.6",
-    "@actions/io": "^1.0.0",
+    "@actions/io": "^1.1.1",
     "@actions/exec": "^1.0.0",
     "@actions/github": "^1.0.0",
     "@actions/tool-cache": "^1.0.0"
