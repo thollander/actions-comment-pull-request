@@ -1,6 +1,6 @@
 {
   "name": "actions-comment-pull-request",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "GitHub action for commenting pull-request",
   "main": "lib/main.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "@actions/core": "^1.6.0",
     "@actions/io": "^1.0.0",
     "@actions/exec": "^1.0.0",
-    "@actions/github": "^1.0.0",
+    "@actions/github": "^5.0.0",
     "@actions/tool-cache": "^1.0.0"
   },
   "devDependencies": {
