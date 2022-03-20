@@ -10,8 +10,9 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm run format
-      - uses: JamesIves/github-pages-deploy-action@releases/v4
-        if: github.event_name == 'push' && github.ref_name == 'main'
-        with:
-          branch: main
-          folder: .
+      - uses: fregante/setup-git-user@v1
+      - if: github.event_name == 'push' && github.ref_name == 'main'
+        run: |
+          git add .
+          git commit -m "[ci skip] compile and lint $GITHUB_SHA"
+          git push
