@@ -14,5 +14,5 @@ jobs:
       - if: github.event_name == 'push' && github.ref_name == 'main'
         run: |
           git add .
-          git commit -m "[ci skip] compile and lint $GITHUB_SHA"
-          git push
+          git commit -m "chore: compile and lint $GITHUB_SHA [ci skip]"
+          git push origin main
