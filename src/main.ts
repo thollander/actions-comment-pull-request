@@ -30,17 +30,16 @@ async function run() {
         if (comment) break;
       }
 
-      if (!comment) {
-        core.setFailed(`Edit mode was asked, but no comment has been found with ${comment_includes}.`);
+      if (comment) {
+        await octokit.rest.issues.updateComment({
+          ...context.repo,
+          comment_id: comment.id,
+          body: message,
+        });
         return;
+      } else {
+        core.warning(`Edit mode was asked, but no comment has been found with ${comment_includes}. Switching to add mode.`);
       }
-
-      await octokit.rest.issues.updateComment({
-        ...context.repo,
-        comment_id: comment.id,
-        body: message,
-      });
-      return;
     }
 
     await octokit.rest.issues.createComment({
