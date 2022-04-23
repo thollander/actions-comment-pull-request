@@ -47,6 +47,39 @@ That is particularly useful for manual workflow for instance (`workflow_run`).
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+
+### Edit an already existing comment
+
+Editing an existing comment is also possible thanks to the `comment_includes` property. 
+It will search through all the comments of the PR and get the first one that has the `comment_includes` text in it.
+That is particularly interesting while committing multiple times in a PR and that you just want to have the last execution report to avoid flooding the PR. 
+
+```
+...
+- name: Comment PR
+  uses: thollander/actions-comment-pull-request@v1
+  with:
+    message: 'Example of message 1'
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+- name: Edit PR comment
+  uses: thollander/actions-comment-pull-request@v1
+  with:
+    message: 'Example of message 2 ! (edited)'
+    comment_includes: 'Example of message 1'
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+## Inputs 
+
+### Action inputs
+
+| Name | Description | Default |
+| --- | --- | --- |
+| `GITHUB_TOKEN` | Token that is used to create comments | |
+| `pr_number` | The number of the pull request where to create the comment | |
+| `message` | The comment body | |
+| `comment_includes` | The text that should be used in case of comment replacement. | |
 ## Contributing
 
 ### Build
