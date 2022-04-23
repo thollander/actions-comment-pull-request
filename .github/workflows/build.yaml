@@ -5,15 +5,28 @@ jobs:
   compile:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - run: npm install
-      - run: npm run build
-      - run: npm run format
-      - uses: fregante/setup-git-user@v1
-      - if: github.event_name == 'push' && github.ref_name == 'main'
+      - name: Checkout sources
+        uses: actions/checkout@v3
+      
+      - name: Setup Node
+        uses: actions/setup-node@v3
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Build
+        run: npm run build
+      
+      - name: Lint
+        run: npm run lint
+      
+      - name: Setup Git
+        if: github.event_name == 'push' && github.ref_name == 'main'
+        uses: fregante/setup-git-user@v1
+      
+      - name: Commit/push if there is a diff
+        if: github.event_name == 'push' && github.ref_name == 'main'
         run: |
-          # commit only if there is a diff
           if ! git diff --exit-code; then
             git add .
             git commit -m "chore: compile and lint $GITHUB_SHA [ci skip]"
