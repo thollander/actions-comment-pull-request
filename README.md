@@ -80,6 +80,7 @@ That is particularly interesting while committing multiple times in a PR and tha
 | `pr_number` | The number of the pull request where to create the comment | |
 | `message` | The comment body | |
 | `comment_includes` | The text that should be used in case of comment replacement. | |
+
 ## Contributing
 
 ### Build
