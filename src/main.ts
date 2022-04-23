@@ -18,9 +18,11 @@ async function run() {
       core.setFailed('No pull request in input neither in current context.');
       return;
     }
-    
+
     if (comment_includes) {
-      type ListCommentsResponseDataType = GetResponseDataTypeFromEndpointMethod<typeof octokit.rest.issues.listComments>;
+      type ListCommentsResponseDataType = GetResponseDataTypeFromEndpointMethod<
+        typeof octokit.rest.issues.listComments
+      >;
       let comment: ListCommentsResponseDataType[0] | undefined;
       for await (const { data: comments } of octokit.paginate.iterator(octokit.rest.issues.listComments, {
         ...context.repo,
