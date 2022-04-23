@@ -17,3 +17,5 @@ runs:
     - ${{ inputs.message }}
     - ${{ inputs.GITHUB_TOKEN }}
     - ${{ inputs.pr_number }}
+    - ${{ inputs.comment_includes }}
+

@@ -13,3 +13,10 @@ jobs:
         with:
           message: 'Current branch is `${{ github.head_ref }}`.'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Edit comment
+        uses: ./
+        with:
+          message: 'Current branch is `${{ github.head_ref }}` (edited).'
+          comment_includes: 'Current branch'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
