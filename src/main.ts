@@ -38,7 +38,7 @@ async function run() {
         });
         return;
       } else {
-        core.warning(`Edit mode was asked, but no comment has been found with ${comment_includes}. Switching to add mode.`);
+        core.info('No comment has been found with asked pattern. Creating a new comment.');
       }
     }
 
