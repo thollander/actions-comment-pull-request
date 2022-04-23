@@ -60,14 +60,14 @@ That is particularly interesting while committing multiple times in a PR and tha
 - name: Comment PR
   uses: thollander/actions-comment-pull-request@v1
   with:
-    message: 'Example of message 1'
+    message: 'Loading ...'
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+...
 - name: Edit PR comment
   uses: thollander/actions-comment-pull-request@v1
   with:
-    message: 'Example of message 2 ! (edited)'
-    comment_includes: 'Example of message 1'
+    message: 'Content loaded ! (edited)'
+    comment_includes: 'Loading'
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
