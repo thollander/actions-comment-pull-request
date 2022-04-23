@@ -11,6 +11,8 @@ jobs:
       - name: Comment PR
         uses: ./
         with:
-          message: 'Current branch is `${{ github.head_ref }}` (execution ${{ github.run_id }} / attempt ${{ github.run_attempt }}).'
-          comment_includes: 'Current branch'
+          message: |
+            Current branch is `${{ github.head_ref }}`.
+            _(execution **${{ github.run_id }}** / attempt **${{ github.run_attempt }}**)_
+          comment_includes: Current branch
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
