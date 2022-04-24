@@ -11,8 +11,8 @@ inputs:
     description: 'Github token of the repository (automatically created by Github)'
     required: true
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'node16'
+  main: 'lib/main.js'
   args:
     - ${{ inputs.message }}
     - ${{ inputs.GITHUB_TOKEN }}
