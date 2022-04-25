@@ -38,7 +38,8 @@ That is particularly useful for manual workflow for instance (`workflow_run`).
 - name: Comment PR
   uses: thollander/actions-comment-pull-request@v1
   with:
-    message: 'Example of message !'
+    message: |
+      Hello world ! :wave:
     pr_number: 123 # This will comment on pull request #123
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
