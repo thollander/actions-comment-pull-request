@@ -4,7 +4,7 @@
   "description": "GitHub action for commenting pull-request",
   "main": "lib/main.js",
   "scripts": {
-    "build": "tsc",
+    "build": "ncc build src/main.ts -o lib",
     "lint": "prettier --write **/*.ts"
   },
   "repository": {
@@ -26,13 +26,15 @@
   "homepage": "https://github.com/thollander/actions-comment-pull-request#readme",
   "dependencies": {
     "@actions/core": "^1.6.0",
-    "@actions/io": "^1.0.0",
     "@actions/exec": "^1.0.0",
     "@actions/github": "^5.0.1",
+    "@actions/io": "^1.0.0",
     "@actions/tool-cache": "^1.0.0"
   },
   "devDependencies": {
+    "@tsconfig/node16": "^1.0.2",
     "@types/node": "^17.0.25",
+    "@vercel/ncc": "^0.33.4",
     "prettier": "^2.6.0",
     "typescript": "^4.6.3"
   }

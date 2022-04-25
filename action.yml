@@ -10,12 +10,10 @@ inputs:
   GITHUB_TOKEN:
     description: 'Github token of the repository (automatically created by Github)'
     required: true
+  pr_number:
+    description: 'Manual pull request number'
+  comment_includes:
+    description: 'The text that should be used to find comment in case of replacement.'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.message }}
-    - ${{ inputs.GITHUB_TOKEN }}
-    - ${{ inputs.pr_number }}
-    - ${{ inputs.comment_includes }}
-
+  using: 'node16'
+  main: 'lib/index.js'
