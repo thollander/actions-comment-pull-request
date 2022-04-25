@@ -47,10 +47,12 @@ That is particularly useful for manual workflow for instance (`workflow_run`).
 
 ### Upsert a comment
 
-Editing an existing comment is also possible thanks to the `comment_includes` property. 
-It will search through all the comments of the PR and get the first one that has the `comment_includes` text in it.
+Editing an existing comment is also possible thanks to the `comment_includes` input.
+
+It will search through all the comments of the PR and get the first one that has the provided text in it.
 If the comment body is not found, it will create a new comment.
-That is particularly interesting while committing multiple times in a PR and that you just want to have the last execution report to avoid flooding the PR. 
+
+_That is particularly interesting while committing multiple times in a PR and that you just want to have the last execution report printed. It avoids flooding the PR._
 
 ```yml
 ...
