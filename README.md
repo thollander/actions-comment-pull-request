@@ -74,7 +74,7 @@ That is particularly interesting while committing multiple times in a PR and tha
 ### Action inputs
 
 | Name | Description | Required | Default |
-| --- | --- | --- |
+| --- | --- | --- | --- |
 | `GITHUB_TOKEN` | Token that is used to create comments | ✅ | |
 | `message` | The comment body | ✅ | |
 | `pr_number` | The number of the pull request where to create the comment | | current pull request number (deduced from context) |
