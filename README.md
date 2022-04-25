@@ -28,8 +28,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-See examples in [opened PR](https://github.com/thollander/actions-comment-pull-request/pulls) !
-
 :information_source: : Add `if: ${{ github.event_name == 'pull_request' }}` to this Action's step if your workflow is not only triggered by a `pull_request` event. It will ensure that you don't throw an error on this step.
 
 ### Specifying which pull request to comment on
@@ -93,17 +91,3 @@ It is handled by Typescript compiler.
 $ npm run build
 ```
 
-## Disclaimer
-
-If you prefer not to download a full action, this can now be easily done thanks to [github scripts](https://github.com/actions/github-script).
-
-```yml
-- name: 'Comment PR'
-  uses: actions/github-script@0.3.0
-  if: github.event_name == 'pull_request'
-  with:
-    github-token: ${{ secrets.GITHUB_TOKEN }}
-    script: |
-      const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
-      github.issues.createComment({ issue_number, owner, repo, body: 'Hello world ! 👋' });
-```
