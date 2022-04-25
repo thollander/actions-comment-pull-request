@@ -9,7 +9,7 @@ You can even put dynamic data thanks to [Contexts and expression syntax](https:/
 
 ### Classic usage
 
-```
+```yml
 on: pull_request
 
 jobs:
@@ -37,7 +37,7 @@ See examples in [opened PR](https://github.com/thollander/actions-comment-pull-r
 You can explicitly input which pull request should be commented on by passing the `pr_number` input.
 That is particularly useful for manual workflow for instance (`workflow_run`).
 
-```
+```yml
 ...
 - name: Comment PR
   uses: thollander/actions-comment-pull-request@v1
@@ -55,7 +55,7 @@ It will search through all the comments of the PR and get the first one that has
 If the comment body is not found, it will create a new comment.
 That is particularly interesting while committing multiple times in a PR and that you just want to have the last execution report to avoid flooding the PR. 
 
-```
+```yml
 ...
 - name: Comment PR
   uses: thollander/actions-comment-pull-request@v1
