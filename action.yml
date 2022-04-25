@@ -16,4 +16,4 @@ inputs:
     description: 'The text that should be used to find comment in case of replacement.'
 runs:
   using: 'node16'
-  main: 'lib/main.js'
+  main: 'lib/index.js'
