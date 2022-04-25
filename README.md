@@ -73,19 +73,19 @@ That is particularly interesting while committing multiple times in a PR and tha
 
 ### Action inputs
 
-| Name | Description | Default |
+| Name | Description | Required | Default |
 | --- | --- | --- |
-| `GITHUB_TOKEN` | Token that is used to create comments | |
-| `pr_number` | The number of the pull request where to create the comment (if not provided, it will try to deduce it from the workflow) | |
-| `message` | The comment body | |
-| `comment_includes` | The text that should be used to find comment in case of replacement. | |
+| `GITHUB_TOKEN` | Token that is used to create comments | ✅ | |
+| `message` | The comment body | ✅ | |
+| `pr_number` | The number of the pull request where to create the comment | | current pull request number (deduced from context) |
+| `comment_includes` | The text that should be used to find comment in case of replacement. | | |
 
 ## Contributing
 
 ### Build
 
-The build steps transpiles the `src/main.ts` to `lib/main.js` which is used in the Docker container.
-It is handled by Typescript compiler.
+The build steps transpiles the `src/main.ts` to `lib/index.js` which is used in a NodeJS environment.
+It is handled by `vercel/ncc` compiler.
 
 ```sh
 $ npm run build
