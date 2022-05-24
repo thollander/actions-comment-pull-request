@@ -2,12 +2,25 @@ import * as github from '@actions/github';
 import * as core from '@actions/core';
 import { GetResponseDataTypeFromEndpointMethod } from '@octokit/types';
 
+// See https://docs.github.com/en/rest/reactions#reaction-types
+const REACTIONS = [
+  "+1",
+  "-1",
+  "laugh",
+  "confused",
+  "heart",
+  "hooray",
+  "rocket",
+  "eyes",
+];
+
 async function run() {
   try {
     const message: string = core.getInput('message');
     const github_token: string = core.getInput('GITHUB_TOKEN');
     const pr_number: string = core.getInput('pr_number');
     const comment_includes: string = core.getInput('comment_includes');
+    const reactions: string = core.getInput('reactions');
 
     const context = github.context;
     const pull_number = parseInt(pr_number) || context.payload.pull_request?.number;
@@ -49,6 +62,8 @@ async function run() {
       issue_number: pull_number,
       body: message,
     });
+
+
   } catch (error) {
     if (error instanceof Error) {
       core.setFailed(error.message);
