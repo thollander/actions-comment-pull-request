@@ -35,18 +35,12 @@ You can also set some reactions on your comments through the `reactions` input.
 It takes only valid reactions and adds it to the comment you've just created. (See https://docs.github.com/en/rest/reactions#reaction-types)
 
 ```yml
-...
-- name: Comment PR
+- name: PR comment with reactions
   uses: thollander/actions-comment-pull-request@v1
   with:
-    message: 'Loading ...'
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-...
-- name: Edit PR comment
-  uses: thollander/actions-comment-pull-request@v1
-  with:
-    message: 'Content loaded ! (edited)'
-    comment_includes: 'Loading'
+    message: |
+      Hello world ! :wave:
+    reactions: eyes, rocket
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
