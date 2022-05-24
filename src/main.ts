@@ -2,12 +2,17 @@ import * as github from '@actions/github';
 import * as core from '@actions/core';
 import { GetResponseDataTypeFromEndpointMethod } from '@octokit/types';
 
+// See https://docs.github.com/en/rest/reactions#reaction-types
+const REACTIONS = ['+1', '-1', 'laugh', 'confused', 'heart', 'hooray', 'rocket', 'eyes'] as const;
+type Reaction = typeof REACTIONS[number];
+
 async function run() {
   try {
     const message: string = core.getInput('message');
     const github_token: string = core.getInput('GITHUB_TOKEN');
     const pr_number: string = core.getInput('pr_number');
     const comment_includes: string = core.getInput('comment_includes');
+    const reactions: string = core.getInput('reactions');
 
     const context = github.context;
     const pull_number = parseInt(pr_number) || context.payload.pull_request?.number;
@@ -17,6 +22,23 @@ async function run() {
     if (!pull_number) {
       core.setFailed('No pull request in input neither in current context.');
       return;
+    }
+
+    async function addReactions(comment_id: number, reactions: string) {
+      const validReactions = <Reaction[]>reactions
+        .replace(/\s/g, '')
+        .split(',')
+        .filter((reaction) => REACTIONS.includes(<Reaction>reaction));
+
+      await Promise.allSettled(
+        validReactions.map(async (content) => {
+          await octokit.rest.reactions.createForIssueComment({
+            ...context.repo,
+            comment_id,
+            content,
+          });
+        }),
+      );
     }
 
     if (comment_includes) {
@@ -38,17 +60,20 @@ async function run() {
           comment_id: comment.id,
           body: message,
         });
+        await addReactions(comment.id, reactions);
         return;
       } else {
         core.info('No comment has been found with asked pattern. Creating a new comment.');
       }
     }
 
-    await octokit.rest.issues.createComment({
+    const { data: comment } = await octokit.rest.issues.createComment({
       ...context.repo,
       issue_number: pull_number,
       body: message,
     });
+
+    await addReactions(comment.id, reactions);
   } catch (error) {
     if (error instanceof Error) {
       core.setFailed(error.message);
