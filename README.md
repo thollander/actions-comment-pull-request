@@ -28,6 +28,28 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+
+### Setting reactions
+
+You can also set some reactions on your comments through the `reactions` input.
+It takes only valid reactions and adds it to the comment you've just created. (See https://docs.github.com/en/rest/reactions#reaction-types)
+
+```yml
+...
+- name: Comment PR
+  uses: thollander/actions-comment-pull-request@v1
+  with:
+    message: 'Loading ...'
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+...
+- name: Edit PR comment
+  uses: thollander/actions-comment-pull-request@v1
+  with:
+    message: 'Content loaded ! (edited)'
+    comment_includes: 'Loading'
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
 ### Specifying which pull request to comment on
 
 You can explicitly input which pull request should be commented on by passing the `pr_number` input.
@@ -78,6 +100,7 @@ _That is particularly interesting while committing multiple times in a PR and th
 | --- | --- | --- | --- |
 | `GITHUB_TOKEN` | Token that is used to create comments | ✅ | |
 | `message` | The comment body | ✅ | |
+| `reactions` | List of reactions for the comment (comma separated). See https://docs.github.com/en/rest/reactions#reaction-types  | | |
 | `pr_number` | The number of the pull request where to create the comment | | current pull request number (deduced from context) |
 | `comment_includes` | The text that should be used to find comment in case of replacement. | | |
 
