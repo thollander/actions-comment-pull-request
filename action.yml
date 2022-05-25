@@ -10,6 +10,8 @@ inputs:
   GITHUB_TOKEN:
     description: 'Github token of the repository (automatically created by Github)'
     required: true
+  reactions:
+    description: 'You can set some reactions on your comments through the `reactions` input.'
   pr_number:
     description: 'Manual pull request number'
   comment_includes:
