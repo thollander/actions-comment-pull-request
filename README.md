@@ -28,6 +28,25 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+### specify a file
+
+```yml
+on: pull_request
+
+jobs:
+  example_comment_pr:
+    runs-on: ubuntu-latest
+    name: An example job to comment a PR
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v1
+        with:
+          filePath: /path/to/file.txt
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
 
 ### Setting reactions
 
@@ -50,7 +69,8 @@ You can explicitly input which pull request should be commented on by passing th
 That is particularly useful for manual workflow for instance (`workflow_run`).
 
 ```yml
-...
+
+---
 - name: Comment PR
   uses: thollander/actions-comment-pull-request@v1
   with:
@@ -59,7 +79,6 @@ That is particularly useful for manual workflow for instance (`workflow_run`).
     pr_number: 123 # This will comment on pull request #123
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
-
 
 ### Upsert a comment
 
@@ -71,13 +90,14 @@ If the comment body is not found, it will create a new comment.
 _That is particularly interesting while committing multiple times in a PR and that you just want to have the last execution report printed. It avoids flooding the PR._
 
 ```yml
-...
+
+---
 - name: Comment PR
   uses: thollander/actions-comment-pull-request@v1
   with:
     message: 'Loading ...'
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-...
+---
 - name: Edit PR comment
   uses: thollander/actions-comment-pull-request@v1
   with:
@@ -86,17 +106,17 @@ _That is particularly interesting while committing multiple times in a PR and th
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-## Inputs 
+## Inputs
 
 ### Action inputs
 
-| Name | Description | Required | Default |
-| --- | --- | --- | --- |
-| `GITHUB_TOKEN` | Token that is used to create comments | ✅ | |
-| `message` | The comment body | ✅ | |
-| `reactions` | List of reactions for the comment (comma separated). See https://docs.github.com/en/rest/reactions#reaction-types  | | |
-| `pr_number` | The number of the pull request where to create the comment | | current pull request number (deduced from context) |
-| `comment_includes` | The text that should be used to find comment in case of replacement. | | |
+| Name               | Description                                                                                                       | Required | Default                                            |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------- | -------- | -------------------------------------------------- |
+| `GITHUB_TOKEN`     | Token that is used to create comments                                                                             | ✅       |                                                    |
+| `message`          | The comment body                                                                                                  | ✅       |                                                    |
+| `reactions`        | List of reactions for the comment (comma separated). See https://docs.github.com/en/rest/reactions#reaction-types |          |                                                    |
+| `pr_number`        | The number of the pull request where to create the comment                                                        |          | current pull request number (deduced from context) |
+| `comment_includes` | The text that should be used to find comment in case of replacement.                                              |          |                                                    |
 
 ## Contributing
 
@@ -108,4 +128,3 @@ It is handled by `vercel/ncc` compiler.
 ```sh
 $ npm run build
 ```
-

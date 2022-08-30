@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 import * as github from '@actions/github';
 import * as core from '@actions/core';
 import { GetResponseDataTypeFromEndpointMethod } from '@octokit/types';
@@ -8,11 +10,24 @@ type Reaction = typeof REACTIONS[number];
 
 async function run() {
   try {
-    const message: string = core.getInput('message');
+    let message: string = core.getInput('message');
+    const filePath: string = core.getInput('filePath');
     const github_token: string = core.getInput('GITHUB_TOKEN');
     const pr_number: string = core.getInput('pr_number');
     const comment_includes: string = core.getInput('comment_includes');
     const reactions: string = core.getInput('reactions');
+
+    if(!filePath && !message) {
+      throw new Error('either filePath or message input should be provided!');
+    }
+
+    if(filePath) {
+      if(!process.env.GITHUB_WORKSPACE) {
+        throw new Error('GITHUB_WORKSPACE is not set! please make sure to use action/checkout action!');
+      }
+      const _path = path.resolve(process.env.GITHUB_WORKSPACE, filePath);
+      message = fs.readFileSync(_path, 'utf8');
+    }
 
     const context = github.context;
     const pull_number = parseInt(pr_number) || context.payload.pull_request?.number;

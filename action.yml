@@ -6,7 +6,10 @@ description: 'Comments a pull request with the provided message'
 inputs:
   message:
     description: 'Message that should be printed in the pull request'
-    required: true
+    required: false
+  filePath:
+    description: 'File that should be commented',
+    required: false
   GITHUB_TOKEN:
     description: 'Github token of the repository (automatically created by Github)'
     required: true
