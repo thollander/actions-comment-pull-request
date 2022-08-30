@@ -8,7 +8,7 @@ inputs:
     description: 'Message that should be printed in the pull request'
     required: false
   filePath:
-    description: 'File that should be commented',
+    description: 'File that should be commented'
     required: false
   GITHUB_TOKEN:
     description: 'Github token of the repository (automatically created by Github)'
