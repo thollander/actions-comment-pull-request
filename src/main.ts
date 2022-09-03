@@ -25,7 +25,7 @@ async function run() {
       if(!process.env.GITHUB_WORKSPACE) {
         throw new Error('GITHUB_WORKSPACE is not set! please make sure to use action/checkout action!');
       }
-      const _path = path.resolve(process.env.GITHUB_WORKSPACE, filePath);
+      const _path = path.join(process.env.GITHUB_WORKSPACE, filePath);
       message = fs.readFileSync(_path, 'utf8');
     }
 
