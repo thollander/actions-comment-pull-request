@@ -25,7 +25,6 @@ jobs:
         with:
           message: |
             Hello world ! :wave:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 
@@ -41,7 +40,6 @@ It takes only valid reactions and adds it to the comment you've just created. (S
     message: |
       Hello world ! :wave:
     reactions: eyes, rocket
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ### Specifying which pull request to comment on
@@ -57,7 +55,6 @@ That is particularly useful for manual workflow for instance (`workflow_run`).
     message: |
       Hello world ! :wave:
     pr_number: 123 # This will comment on pull request #123
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 
@@ -76,14 +73,12 @@ _That is particularly interesting while committing multiple times in a PR and th
   uses: thollander/actions-comment-pull-request@v1
   with:
     message: 'Loading ...'
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ...
 - name: Edit PR comment
   uses: thollander/actions-comment-pull-request@v1
   with:
     message: 'Content loaded ! (edited)'
     comment_includes: 'Loading'
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ## Inputs 
@@ -92,7 +87,7 @@ _That is particularly interesting while committing multiple times in a PR and th
 
 | Name | Description | Required | Default |
 | --- | --- | --- | --- |
-| `GITHUB_TOKEN` | Token that is used to create comments | ✅ | |
+| `GITHUB_TOKEN` | Token that is used to create comments. Defaults to ${{ github.token }} | ✅ | |
 | `message` | The comment body | ✅ | |
 | `reactions` | List of reactions for the comment (comma separated). See https://docs.github.com/en/rest/reactions#reaction-types  | | |
 | `pr_number` | The number of the pull request where to create the comment | | current pull request number (deduced from context) |
