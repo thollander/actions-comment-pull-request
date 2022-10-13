@@ -9,7 +9,8 @@ inputs:
     required: true
   GITHUB_TOKEN:
     description: 'Github token of the repository (automatically created by Github)'
-    required: true
+    default: ${{ github.token }}
+    required: false
   reactions:
     description: 'You can set some reactions on your comments through the `reactions` input.'
   pr_number:
