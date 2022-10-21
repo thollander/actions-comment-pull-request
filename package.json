@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
-    "@types/node": "^18.11.2",
+    "@types/node": "^18.11.3",
     "@vercel/ncc": "^0.34.0",
     "prettier": "^2.7.1",
     "typescript": "^4.7.4"
