@@ -16,5 +16,6 @@ jobs:
           message: |
             Current branch is `${{ github.head_ref }}`.
             _(execution **${{ github.run_id }}** / attempt **${{ github.run_attempt }}**)_
-          comment_includes: Current branch
+            <!--- thollander/actions-comment-pull-request "comment_tag" --->
+          comment_includes: <!--- thollander/actions-comment-pull-request "comment_tag" --->
           reactions: eyes, rocket
