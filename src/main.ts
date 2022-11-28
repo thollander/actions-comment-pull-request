@@ -15,12 +15,12 @@ async function run() {
     const reactions: string = core.getInput('reactions');
 
     const context = github.context;
-    const pull_number = parseInt(pr_number) || context.payload.pull_request?.number;
+    const issue_number = parseInt(pr_number) || context.payload.pull_request?.number || context.payload.issue?.number;
 
     const octokit = github.getOctokit(github_token);
 
-    if (!pull_number) {
-      core.setFailed('No pull request in input neither in current context.');
+    if (!issue_number) {
+      core.setFailed('No issue/pull request in input neither in current context.');
       return;
     }
 
@@ -48,7 +48,7 @@ async function run() {
       let comment: ListCommentsResponseDataType[0] | undefined;
       for await (const { data: comments } of octokit.paginate.iterator(octokit.rest.issues.listComments, {
         ...context.repo,
-        issue_number: pull_number,
+        issue_number,
       })) {
         comment = comments.find((comment) => comment?.body?.includes(comment_includes));
         if (comment) break;
@@ -69,7 +69,7 @@ async function run() {
 
     const { data: comment } = await octokit.rest.issues.createComment({
       ...context.repo,
-      issue_number: pull_number,
+      issue_number,
       body: message,
     });
 

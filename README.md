@@ -90,7 +90,7 @@ _That is particularly interesting while committing multiple times in a PR and th
 | `GITHUB_TOKEN` | Token that is used to create comments. Defaults to ${{ github.token }} | ✅ | |
 | `message` | The comment body | ✅ | |
 | `reactions` | List of reactions for the comment (comma separated). See https://docs.github.com/en/rest/reactions#reaction-types  | | |
-| `pr_number` | The number of the pull request where to create the comment | | current pull request number (deduced from context) |
+| `pr_number` | The number of the pull request where to create the comment | | current pull-request/issue number (deduced from context) |
 | `comment_includes` | The text that should be used to find comment in case of replacement. | | |
 
 ## Contributing
