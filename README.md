@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Comment PR
-        uses: thollander/actions-comment-pull-request@v1
+        uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
             Hello world ! :wave:
@@ -35,7 +35,7 @@ It takes only valid reactions and adds it to the comment you've just created. (S
 
 ```yml
 - name: PR comment with reactions
-  uses: thollander/actions-comment-pull-request@v1
+  uses: thollander/actions-comment-pull-request@v2
   with:
     message: |
       Hello world ! :wave:
@@ -50,7 +50,7 @@ That is particularly useful for manual workflow for instance (`workflow_run`).
 ```yml
 ...
 - name: Comment PR
-  uses: thollander/actions-comment-pull-request@v1
+  uses: thollander/actions-comment-pull-request@v2
   with:
     message: |
       Hello world ! :wave:
@@ -60,25 +60,21 @@ That is particularly useful for manual workflow for instance (`workflow_run`).
 
 ### Upsert a comment
 
-Editing an existing comment is also possible thanks to the `comment_includes` input.
+Editing an existing comment is also possible thanks to the `comment_tag` input.
 
-It will search through all the comments of the PR and get the first one that has the provided text in it.
-If the comment body is not found, it will create a new comment.
+Thanks to this parameter, it will be possible to identify your comment and then to upsert on it. 
+If the comment is not found at first, it will create a new comment.
 
 _That is particularly interesting while committing multiple times in a PR and that you just want to have the last execution report printed. It avoids flooding the PR._
 
 ```yml
 ...
-- name: Comment PR
-  uses: thollander/actions-comment-pull-request@v1
+- name: Comment PR with execution number
+  uses: thollander/actions-comment-pull-request@v2
   with:
-    message: 'Loading ...'
-...
-- name: Edit PR comment
-  uses: thollander/actions-comment-pull-request@v1
-  with:
-    message: 'Content loaded ! (edited)'
-    comment_includes: 'Loading'
+    message: |
+      _(execution **${{ github.run_id }}** / attempt **${{ github.run_attempt }}**)_
+    comment_tag: execution
 ```
 
 ## Inputs 
@@ -91,7 +87,7 @@ _That is particularly interesting while committing multiple times in a PR and th
 | `message` | The comment body | ✅ | |
 | `reactions` | List of reactions for the comment (comma separated). See https://docs.github.com/en/rest/reactions#reaction-types  | | |
 | `pr_number` | The number of the pull request where to create the comment | | current pull-request/issue number (deduced from context) |
-| `comment_includes` | The text that should be used to find comment in case of replacement. | | |
+| `comment_tag` | A tag on your comment that will be used to identify a comment in case of replacement | | |
 
 ## Contributing
 
@@ -103,4 +99,3 @@ It is handled by `vercel/ncc` compiler.
 ```sh
 $ npm run build
 ```
-

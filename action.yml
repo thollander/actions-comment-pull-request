@@ -15,8 +15,8 @@ inputs:
     description: 'You can set some reactions on your comments through the `reactions` input.'
   pr_number:
     description: 'Manual pull request number'
-  comment_includes:
-    description: 'The text that should be used to find comment in case of replacement.'
+  comment_tag:
+    description: 'A tag on your comment that will be used to identify a comment in case of replacement.'
 runs:
   using: 'node16'
   main: 'lib/index.js'
