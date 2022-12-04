@@ -11,7 +11,7 @@ async function run() {
     const message: string = core.getInput('message');
     const github_token: string = core.getInput('GITHUB_TOKEN');
     const pr_number: string = core.getInput('pr_number');
-    const comment_includes: string = core.getInput('comment_includes');
+    const comment_tag: string = core.getInput('comment_tag');
     const reactions: string = core.getInput('reactions');
 
     const context = github.context;
@@ -41,7 +41,10 @@ async function run() {
       );
     }
 
-    if (comment_includes) {
+    const comment_tag_pattern = comment_tag ? `<!-- thollander/actions-comment-pull-request "${comment_tag}" -->` : null;
+    const body = comment_tag_pattern ? `${message}\n${comment_tag_pattern}` : message;
+
+    if (comment_tag_pattern) {
       type ListCommentsResponseDataType = GetResponseDataTypeFromEndpointMethod<
         typeof octokit.rest.issues.listComments
       >;
@@ -50,7 +53,7 @@ async function run() {
         ...context.repo,
         issue_number,
       })) {
-        comment = comments.find((comment) => comment?.body?.includes(comment_includes));
+        comment = comments.find((comment) => comment?.body?.includes(comment_tag_pattern));
         if (comment) break;
       }
 
@@ -58,7 +61,7 @@ async function run() {
         await octokit.rest.issues.updateComment({
           ...context.repo,
           comment_id: comment.id,
-          body: message,
+          body,
         });
         await addReactions(comment.id, reactions);
         return;
@@ -70,7 +73,7 @@ async function run() {
     const { data: comment } = await octokit.rest.issues.createComment({
       ...context.repo,
       issue_number,
-      body: message,
+      body,
     });
 
     await addReactions(comment.id, reactions);
