@@ -58,7 +58,7 @@ That is particularly useful for manual workflow for instance (`workflow_run`).
 ```
 
 
-### Upsert a comment
+### Update a comment
 
 Editing an existing comment is also possible thanks to the `comment_tag` input.
 
@@ -76,6 +76,8 @@ _That is particularly interesting while committing multiple times in a PR and th
       _(execution **${{ github.run_id }}** / attempt **${{ github.run_attempt }}**)_
     comment_tag: execution
 ```
+
+Note: the input `mode` can be used to either `upsert` (by default) or `recreate` the comment (= delete and create)
 
 ## Inputs 
 
