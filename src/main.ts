@@ -13,6 +13,7 @@ async function run() {
     const pr_number: string = core.getInput('pr_number');
     const comment_tag: string = core.getInput('comment_tag');
     const reactions: string = core.getInput('reactions');
+    const mode: string = core.getInput('mode');
 
     const context = github.context;
     const issue_number = parseInt(pr_number) || context.payload.pull_request?.number || context.payload.issue?.number;
@@ -60,13 +61,32 @@ async function run() {
       }
 
       if (comment) {
-        await octokit.rest.issues.updateComment({
-          ...context.repo,
-          comment_id: comment.id,
-          body,
-        });
-        await addReactions(comment.id, reactions);
-        return;
+        if (mode === 'upsert') {
+          await octokit.rest.issues.updateComment({
+            ...context.repo,
+            comment_id: comment.id,
+            body,
+          });
+          await addReactions(comment.id, reactions);
+          return;
+        } else if (mode === 'recreate') {
+          await octokit.rest.issues.deleteComment({
+            ...context.repo,
+            comment_id: comment.id,
+          });
+
+          const { data: newComment } = await octokit.rest.issues.createComment({
+            ...context.repo,
+            issue_number,
+            body,
+          });
+
+          await addReactions(newComment.id, reactions);
+          return;
+        } else {
+          core.setFailed(`Mode ${mode} is unknown. Please use 'upsert' or 'recreate'.`);
+          return;
+        }
       } else {
         core.info('No comment has been found with asked pattern. Creating a new comment.');
       }

@@ -88,6 +88,7 @@ _That is particularly interesting while committing multiple times in a PR and th
 | `reactions` | List of reactions for the comment (comma separated). See https://docs.github.com/en/rest/reactions#reaction-types  | | |
 | `pr_number` | The number of the pull request where to create the comment | | current pull-request/issue number (deduced from context) |
 | `comment_tag` | A tag on your comment that will be used to identify a comment in case of replacement | | |
+| `mode` | Mode that will be used to update comment (upsert/recreate) | | upsert |
 
 ## Contributing
 
