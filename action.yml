@@ -17,6 +17,9 @@ inputs:
     description: 'Manual pull request number'
   comment_tag:
     description: 'A tag on your comment that will be used to identify a comment in case of replacement.'
+  mode:
+    description: 'Mode that will be used to update comment (upsert/recreate)'
+    default: 'upsert'
 runs:
   using: 'node16'
   main: 'lib/index.js'
