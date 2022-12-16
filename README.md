@@ -27,6 +27,19 @@ jobs:
             Hello world ! :wave:
 ```
 
+### Comment a file content
+
+Thanks to the `filePath` input, a file content can be commented.
+You can either pass an absolute filePath or a relative one that will be by default retrieved from `GITHUB_WORKSPACE`. 
+(Note that if both a `message` and `filePath` are provided, `message` will take precedence.)
+
+```yml
+- name: PR comment with file
+  uses: thollander/actions-comment-pull-request@v2
+  with:
+    filePath: /path/to/file.txt
+```
+
 
 ### Setting reactions
 
@@ -86,7 +99,8 @@ Note: the input `mode` can be used to either `upsert` (by default) or `recreate`
 | Name | Description | Required | Default |
 | --- | --- | --- | --- |
 | `GITHUB_TOKEN` | Token that is used to create comments. Defaults to ${{ github.token }} | ✅ | |
-| `message` | The comment body | ✅ | |
+| `message` | Comment body | | |
+| `filePath` | Path of the file that should be commented | | |
 | `reactions` | List of reactions for the comment (comma separated). See https://docs.github.com/en/rest/reactions#reaction-types  | | |
 | `pr_number` | The number of the pull request where to create the comment | | current pull-request/issue number (deduced from context) |
 | `comment_tag` | A tag on your comment that will be used to identify a comment in case of replacement | | |
