@@ -10,12 +10,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Comment PR
+      - name: Comment PR with message
         uses: ./
         with:
           message: |
             Current branch is `${{ github.head_ref }}`.
             _(execution **${{ github.run_id }}** / attempt **${{ github.run_attempt }}**)_
-          comment_tag: nrt
+          comment_tag: nrt_message
+          reactions: eyes, rocket
+          mode: recreate
+
+      - name: Comment PR with file
+        uses: ./
+        with:
+          filePath: README.md
+          comment_tag: nrt_file
           reactions: eyes, rocket
           mode: recreate

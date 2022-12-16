@@ -1,3 +1,5 @@
+import path from 'path';
+import fs from 'fs';
 import * as github from '@actions/github';
 import * as core from '@actions/core';
 import { GetResponseDataTypeFromEndpointMethod } from '@octokit/types';
@@ -9,11 +11,31 @@ type Reaction = typeof REACTIONS[number];
 async function run() {
   try {
     const message: string = core.getInput('message');
+    const filePath: string = core.getInput('filePath');
     const github_token: string = core.getInput('GITHUB_TOKEN');
     const pr_number: string = core.getInput('pr_number');
     const comment_tag: string = core.getInput('comment_tag');
     const reactions: string = core.getInput('reactions');
     const mode: string = core.getInput('mode');
+
+    if (!message && !filePath) {
+      core.setFailed('Either "filePath" or "message" should be provided as input');
+      return;
+    }
+
+    let content: string = message;
+    let _filePath: string;
+    if (!message && filePath) {
+      const { GITHUB_WORKSPACE } = process.env;
+
+      if (!GITHUB_WORKSPACE) {
+        core.setFailed('"GITHUB_WORKSPACE" env variable is not defined.');
+        return;
+      }
+
+      _filePath = path.join(GITHUB_WORKSPACE, filePath);
+      content = fs.readFileSync(_filePath, 'utf8');
+    }
 
     const context = github.context;
     const issue_number = parseInt(pr_number) || context.payload.pull_request?.number || context.payload.issue?.number;
@@ -45,7 +67,7 @@ async function run() {
     const comment_tag_pattern = comment_tag
       ? `<!-- thollander/actions-comment-pull-request "${comment_tag}" -->`
       : null;
-    const body = comment_tag_pattern ? `${message}\n${comment_tag_pattern}` : message;
+    const body = comment_tag_pattern ? `${content}\n${comment_tag_pattern}` : content;
 
     if (comment_tag_pattern) {
       type ListCommentsResponseDataType = GetResponseDataTypeFromEndpointMethod<
