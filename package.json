@@ -1,6 +1,6 @@
 {
   "name": "actions-comment-pull-request",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "GitHub action for commenting pull-request",
   "main": "lib/main.js",
   "scripts": {
