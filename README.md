@@ -105,6 +105,7 @@ Note: the input `mode` can be used to either `upsert` (by default) or `recreate`
 | `pr_number` | The number of the pull request where to create the comment | | current pull-request/issue number (deduced from context) |
 | `comment_tag` | A tag on your comment that will be used to identify a comment in case of replacement | | |
 | `mode` | Mode that will be used to update comment (upsert/recreate) | | upsert |
+| `create_if_not_exists` | Whether a comment should be created even if `comment_tag` is not found | | true |
 
 ## Contributing
 

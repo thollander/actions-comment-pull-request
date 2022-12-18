@@ -21,6 +21,9 @@ inputs:
   mode:
     description: 'Mode that will be used to update comment (upsert/recreate)'
     default: 'upsert'
+  create_if_not_exists:
+    description: 'Whether a comment should be created even if comment_tag is not found.'
+    default: 'true'
 runs:
   using: 'node16'
   main: 'lib/index.js'

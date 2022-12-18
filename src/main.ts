@@ -17,6 +17,7 @@ async function run() {
     const comment_tag: string = core.getInput('comment_tag');
     const reactions: string = core.getInput('reactions');
     const mode: string = core.getInput('mode');
+    const create_if_not_exists: boolean = core.getInput('create_if_not_exists') === 'true';
 
     if (!message && !filePath) {
       core.setFailed('Either "filePath" or "message" should be provided as input');
@@ -109,8 +110,13 @@ async function run() {
           core.setFailed(`Mode ${mode} is unknown. Please use 'upsert' or 'recreate'.`);
           return;
         }
-      } else {
+      } else if (create_if_not_exists) {
         core.info('No comment has been found with asked pattern. Creating a new comment.');
+      } else {
+        core.info(
+          'Not creating comment as the pattern has not been found. Use `create_if_not_exists: true` to create a new comment anyway.',
+        );
+        return;
       }
     }
 
