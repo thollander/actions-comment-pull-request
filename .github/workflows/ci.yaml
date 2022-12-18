@@ -27,3 +27,10 @@ jobs:
           comment_tag: nrt_file
           reactions: eyes, rocket
           mode: recreate
+
+      - name: Do not comment PR if not exists
+        uses: ./
+        with:
+          message: Should not be printed
+          comment_tag: nrt_create_if_not_exists
+          create_if_not_exists: false
