@@ -10,6 +10,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: (BEFORE) Setup test cases
+        run: echo '**Content of file referenced with absolute path**' > /tmp/foobar.txt
+
       - name: Comment PR with message
         uses: ./
         with:
@@ -28,9 +31,20 @@ jobs:
           reactions: eyes, rocket
           mode: recreate
 
+      - name: Comment PR with file (absolute path)
+        uses: ./
+        with:
+          filePath: /tmp/foobar.txt
+          comment_tag: nrt_file_absolute
+          reactions: eyes, rocket
+          mode: recreate
+
       - name: Do not comment PR if not exists
         uses: ./
         with:
           message: Should not be printed
           comment_tag: nrt_create_if_not_exists
           create_if_not_exists: false
+
+      - name: (AFTER) Setup test cases
+        run: rm /tmp/foobar.txt
