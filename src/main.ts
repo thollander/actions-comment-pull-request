@@ -25,17 +25,8 @@ async function run() {
     }
 
     let content: string = message;
-    let _filePath: string;
     if (!message && filePath) {
-      const { GITHUB_WORKSPACE } = process.env;
-
-      if (!GITHUB_WORKSPACE) {
-        core.setFailed('"GITHUB_WORKSPACE" env variable is not defined.');
-        return;
-      }
-
-      _filePath = path.join(GITHUB_WORKSPACE, filePath);
-      content = fs.readFileSync(_filePath, 'utf8');
+      content = fs.readFileSync(filePath, 'utf8');
     }
 
     const context = github.context;
