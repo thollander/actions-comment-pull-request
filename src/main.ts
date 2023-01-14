@@ -6,7 +6,7 @@ import { GetResponseDataTypeFromEndpointMethod } from '@octokit/types';
 
 // See https://docs.github.com/en/rest/reactions#reaction-types
 const REACTIONS = ['+1', '-1', 'laugh', 'confused', 'heart', 'hooray', 'rocket', 'eyes'] as const;
-type Reaction = typeof REACTIONS[number];
+type Reaction = (typeof REACTIONS)[number];
 
 async function run() {
   try {
