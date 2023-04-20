@@ -1,0 +1,46 @@
+on: pull_request
+
+jobs:
+  test_strings:
+    name: test strings
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: create string
+        run: |
+          MY_STRING=$(cat << EOF
+          first line
+          second line
+          third line
+          EOF
+          )
+          echo "::set-output name=content::$MY_STRING"
+        id: my_string
+
+      - name: display string
+        run: |
+          echo "The string is: ${{ steps.my_string.outputs.content }}"
+
+      - name: create string
+        run: |
+          MY_STRING=$(cat << EOF
+          first line
+          second line
+          third line
+          EOF
+          )
+          echo "MY_STRING<<EOF" >> $GITHUB_ENV
+          echo "$MY_STRING" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      - name: display string
+        run: |
+          echo "The string is: ${{ env.MY_STRING }}"
+
+      - name: Comment PR with message
+        uses: ./
+        with:
+          message: |
+            The string is: ${{ env.MY_STRING }}
+
