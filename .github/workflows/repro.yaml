@@ -1,0 +1,19 @@
+on: pull_request
+
+env: 
+  FOO: BAR
+
+jobs:
+  env_var:
+    name: Env var example
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Comment PR with message
+        uses: ./
+        with:
+          message: |
+            Foo value : ${{ env.FOO }}
+
