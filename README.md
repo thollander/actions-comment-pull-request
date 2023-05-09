@@ -107,6 +107,19 @@ Note: the input `mode` can be used to either `upsert` (by default) or `recreate`
 | `mode` | Mode that will be used to update comment (upsert/recreate) | | upsert |
 | `create_if_not_exists` | Whether a comment should be created even if `comment_tag` is not found | | true |
 
+## Permissions
+
+Depending on the permissions granted to your token, you may lack some rights. 
+To run successfully, this actions needs at least : 
+
+```yaml
+permissions: 
+   pull-requests: write 
+```
+
+Add this in case you get `Resource not accessible by integration` error.
+See [jobs.<job_id>.permissions](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idpermissions) for more information.
+
 ## Contributing
 
 ### Build
