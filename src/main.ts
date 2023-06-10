@@ -1,4 +1,3 @@
-import path from 'path';
 import fs from 'fs';
 import * as github from '@actions/github';
 import * as core from '@actions/core';
@@ -97,8 +96,10 @@ async function run() {
 
           await addReactions(newComment.id, reactions);
           return;
+        } else if (mode === 'delete') {
+          core.debug('Registering this comment to be deleted.')
         } else {
-          core.setFailed(`Mode ${mode} is unknown. Please use 'upsert' or 'recreate'.`);
+          core.setFailed(`Mode ${mode} is unknown. Please use 'upsert', 'recreate' or 'delete'.`);
           return;
         }
       } else if (create_if_not_exists) {
