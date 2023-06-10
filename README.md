@@ -92,6 +92,24 @@ _That is particularly interesting while committing multiple times in a PR and th
 
 Note: the input `mode` can be used to either `upsert` (by default) or `recreate` the comment (= delete and create)
 
+### Delete a comment
+
+Deleting an existing comment is also possible thanks to the `comment_tag` input combined with `mode: delete`.
+
+This will delete the comment at the end of the job. 
+
+```yml
+...
+- name: Write a comment that will be deleted at the end of the job
+  uses: thollander/actions-comment-pull-request@v2
+  with:
+    message: |
+      The PR is being built...
+    comment_tag: to_delete
+    mode: delete
+
+```
+
 ## Inputs 
 
 ### Action inputs
@@ -104,7 +122,7 @@ Note: the input `mode` can be used to either `upsert` (by default) or `recreate`
 | `reactions` | List of reactions for the comment (comma separated). See https://docs.github.com/en/rest/reactions#reaction-types  | | |
 | `pr_number` | The number of the pull request where to create the comment | | current pull-request/issue number (deduced from context) |
 | `comment_tag` | A tag on your comment that will be used to identify a comment in case of replacement | | |
-| `mode` | Mode that will be used to update comment (upsert/recreate) | | upsert |
+| `mode` | Mode that will be used to update comment (upsert/recreate/delete) | | upsert |
 | `create_if_not_exists` | Whether a comment should be created even if `comment_tag` is not found | | true |
 
 ## Permissions
