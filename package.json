@@ -4,7 +4,9 @@
   "description": "GitHub action for commenting pull-request",
   "main": "lib/main.js",
   "scripts": {
-    "build": "ncc build src/main.ts -o lib",
+    "build": "npm run build:main && npm run build:cleanup",
+    "build:main": "ncc build src/main.ts -o lib",
+    "build:cleanup": "ncc build src/cleanup.ts -o lib/cleanup",
     "lint": "prettier --write **/*.ts"
   },
   "repository": {

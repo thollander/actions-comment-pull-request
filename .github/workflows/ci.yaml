@@ -23,6 +23,15 @@ jobs:
           reactions: eyes, rocket
           mode: recreate
 
+      - name: Comment PR with message that will be deleted
+        uses: ./
+        with:
+          message: |
+            This PR is being built... 
+          comment_tag: nrt_message_delete
+          reactions: eyes
+          mode: delete
+
       - name: Comment PR with file
         uses: ./
         with:

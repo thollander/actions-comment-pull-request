@@ -27,3 +27,4 @@ inputs:
 runs:
   using: 'node16'
   main: 'lib/index.js'
+  post: 'lib/cleanup/index.js'
