@@ -97,7 +97,7 @@ async function run() {
           await addReactions(newComment.id, reactions);
           return;
         } else if (mode === 'delete') {
-          core.debug('Registering this comment to be deleted.')
+          core.debug('Registering this comment to be deleted.');
         } else {
           core.setFailed(`Mode ${mode} is unknown. Please use 'upsert', 'recreate' or 'delete'.`);
           return;
