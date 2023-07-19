@@ -9,7 +9,7 @@ async function run() {
     const comment_tag: string = core.getInput('comment_tag');
     const mode: string = core.getInput('mode');
 
-    if (mode !== 'delete') {
+    if (!(mode === 'delete' || mode === 'delete_existing')) {
       core.debug('This comment was not to be deleted. Skipping');
       return;
     }
