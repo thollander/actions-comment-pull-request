@@ -102,7 +102,7 @@ async function run() {
         } else if (mode === 'delete') {
           core.debug('Registering this comment to be deleted.');
         } else {
-          core.setFailed(`Mode ${mode} is unknown. Please use 'upsert', 'recreate' or 'delete'.`);
+          core.setFailed(`Mode ${mode} is unknown. Please use 'upsert', 'recreate', 'delete' or 'delete_existing'.`);
           return;
         }
       } else if (create_if_not_exists) {
