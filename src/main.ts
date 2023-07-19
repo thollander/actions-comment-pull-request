@@ -96,6 +96,9 @@ async function run() {
 
           await addReactions(newComment.id, reactions);
           return;
+        } else if (mode === 'delete_existing') {
+          core.debug('Deleting first identified comment');
+          return;
         } else if (mode === 'delete') {
           core.debug('Registering this comment to be deleted.');
         } else {
