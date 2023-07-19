@@ -30,7 +30,7 @@ jobs:
 ### Comment a file content
 
 Thanks to the `filePath` input, a file content can be commented.
-You can either pass an absolute filePath or a relative one that will be by default retrieved from `GITHUB_WORKSPACE`. 
+You can either pass an absolute filePath or a relative one that will be by default retrieved from `GITHUB_WORKSPACE`.
 (Note that if both a `message` and `filePath` are provided, `message` will take precedence.)
 
 ```yml
@@ -39,7 +39,6 @@ You can either pass an absolute filePath or a relative one that will be by defau
   with:
     filePath: /path/to/file.txt
 ```
-
 
 ### Setting reactions
 
@@ -61,7 +60,8 @@ You can explicitly input which pull request should be commented on by passing th
 That is particularly useful for manual workflow for instance (`workflow_run`).
 
 ```yml
-...
+
+---
 - name: Comment PR
   uses: thollander/actions-comment-pull-request@v2
   with:
@@ -70,18 +70,18 @@ That is particularly useful for manual workflow for instance (`workflow_run`).
     pr_number: 123 # This will comment on pull request #123
 ```
 
-
 ### Update a comment
 
 Editing an existing comment is also possible thanks to the `comment_tag` input.
 
-Thanks to this parameter, it will be possible to identify your comment and then to upsert on it. 
+Thanks to this parameter, it will be possible to identify your comment and then to upsert on it.
 If the comment is not found at first, it will create a new comment.
 
 _That is particularly interesting while committing multiple times in a PR and that you just want to have the last execution report printed. It avoids flooding the PR._
 
 ```yml
-...
+
+---
 - name: Comment PR with execution number
   uses: thollander/actions-comment-pull-request@v2
   with:
@@ -96,10 +96,11 @@ Note: the input `mode` can be used to either `upsert` (by default) or `recreate`
 
 Deleting an existing comment is also possible thanks to the `comment_tag` input combined with `mode: delete`.
 
-This will delete the comment at the end of the job. 
+This will delete the comment at the end of the job.
 
 ```yml
-...
+
+---
 - name: Write a comment that will be deleted at the end of the job
   uses: thollander/actions-comment-pull-request@v2
   with:
@@ -107,32 +108,47 @@ This will delete the comment at the end of the job.
       The PR is being built...
     comment_tag: to_delete
     mode: delete
-
 ```
 
-## Inputs 
+### Delete a comment without creating a new one
+
+Deleting previous comment (top comment) in subsequent runs is possible. use `comment_tag` and set `mode: delete_existing`
+This will delete the first identified comment with supplied `comment_tag`
+
+```yml
+
+---
+- name: Delete previous top comment
+  uses: thollander/actions-comment-pull-request@v2
+  with:
+    message: |
+      this will be ignored!
+    comment_tag: to_delete
+    mode: delete_existing
+```
+
+## Inputs
 
 ### Action inputs
 
-| Name | Description | Required | Default |
-| --- | --- | --- | --- |
-| `GITHUB_TOKEN` | Token that is used to create comments. Defaults to ${{ github.token }} | ✅ | |
-| `message` | Comment body | | |
-| `filePath` | Path of the file that should be commented | | |
-| `reactions` | List of reactions for the comment (comma separated). See https://docs.github.com/en/rest/reactions#reaction-types  | | |
-| `pr_number` | The number of the pull request where to create the comment | | current pull-request/issue number (deduced from context) |
-| `comment_tag` | A tag on your comment that will be used to identify a comment in case of replacement | | |
-| `mode` | Mode that will be used to update comment (upsert/recreate/delete) | | upsert |
-| `create_if_not_exists` | Whether a comment should be created even if `comment_tag` is not found | | true |
+| Name                   | Description                                                                                                       | Required | Default                                                  |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------- | -------- | -------------------------------------------------------- |
+| `GITHUB_TOKEN`         | Token that is used to create comments. Defaults to ${{ github.token }}                                            | ✅       |                                                          |
+| `message`              | Comment body                                                                                                      |          |                                                          |
+| `filePath`             | Path of the file that should be commented                                                                         |          |                                                          |
+| `reactions`            | List of reactions for the comment (comma separated). See https://docs.github.com/en/rest/reactions#reaction-types |          |                                                          |
+| `pr_number`            | The number of the pull request where to create the comment                                                        |          | current pull-request/issue number (deduced from context) |
+| `comment_tag`          | A tag on your comment that will be used to identify a comment in case of replacement                              |          |                                                          |
+| `mode`                 | Mode that will be used to update comment (upsert/recreate/delete)                                                 |          | upsert                                                   |
+| `create_if_not_exists` | Whether a comment should be created even if `comment_tag` is not found                                            |          | true                                                     |
 
 ## Permissions
 
-Depending on the permissions granted to your token, you may lack some rights. 
-To run successfully, this actions needs at least : 
+Depending on the permissions granted to your token, you may lack some rights.
+To run successfully, this actions needs at least :
 
 ```yaml
-permissions: 
-   pull-requests: write 
+permissions:   pull-requests: write
 ```
 
 Add this in case you get `Resource not accessible by integration` error.
