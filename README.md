@@ -138,6 +138,10 @@ permissions:
 Add this in case you get `Resource not accessible by integration` error.
 See [jobs.<job_id>.permissions](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idpermissions) for more information.
 
+
+> Note that, if the PR comes from a fork, it will have only read permission despite the permissions given in the action for the `pull_request` event.
+> In this case, you may use the `pull_request_target` event. With this event, permissions can be given without issue (the difference is that it will execute the action from the target branch and not from the origin PR).
+
 ## Contributing
 
 ### Build
