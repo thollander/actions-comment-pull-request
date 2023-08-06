@@ -32,25 +32,18 @@ async function run() {
     const comment_tag_pattern = `<!-- thollander/actions-comment-pull-request "${comment_tag}" -->`;
 
     if (comment_tag_pattern) {
-      type ListCommentsResponseDataType = GetResponseDataTypeFromEndpointMethod<
-        typeof octokit.rest.issues.listComments
-      >;
-      let comment: ListCommentsResponseDataType[0] | undefined;
       for await (const { data: comments } of octokit.paginate.iterator(octokit.rest.issues.listComments, {
         ...context.repo,
         issue_number,
       })) {
-        comment = comments.find((comment) => comment?.body?.includes(comment_tag_pattern));
-        if (comment) break;
-      }
-
-      if (comment) {
-        core.info(`Deleting comment ${comment.id}.`);
-        await octokit.rest.issues.deleteComment({
-          ...context.repo,
-          comment_id: comment.id,
-        });
-        return;
+        const commentsToDelete = comments.filter((comment) => comment?.body?.includes(comment_tag_pattern));
+        for (const commentToDelete of commentsToDelete) {
+          core.info(`Deleting comment ${commentToDelete.id}.`);
+          await octokit.rest.issues.deleteComment({
+            ...context.repo,
+            comment_id: commentToDelete.id,
+          });
+        }
       }
     }
     return;
