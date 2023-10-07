@@ -1,0 +1,26 @@
+on: pull_request
+
+jobs:
+  test_comment_pr:
+    name: REPRO
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Comment PR with file content
+        uses: ./
+        with:
+          message: |
+            ```ts
+            import fs from 'fs';
+            import * as github from '@actions/github';
+            import * as core from '@actions/core';
+            import { GetResponseDataTypeFromEndpointMethod } from '@octokit/types';
+
+            // See https://docs.github.com/en/rest/reactions#reaction-types
+            const REACTIONS = ['+1', '-1', 'laugh', 'confused', 'heart', 'hooray', 'rocket', 'eyes'] as const;
+            type Reaction = (typeof REACTIONS)[number];
+            ```
