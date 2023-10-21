@@ -125,6 +125,35 @@ This will delete the comment at the end of the job.
 | `mode` | Mode that will be used to update comment (upsert/recreate/delete) | | upsert |
 | `create_if_not_exists` | Whether a comment should be created even if `comment_tag` is not found | | true |
 
+
+## Outputs 
+
+### Action outputs
+
+You can get some outputs from this actions : 
+
+| Name | Description |
+| --- | --- |
+| `id` | Comment id that was created or updated | 
+| `body` | Comment body |
+| `html_url` | URL of the comment created or updated |
+
+## Example 
+
+```yaml
+- name: Comment PR
+  uses: thollander/actions-comment-pull-request@v2
+  id: hello
+  with:
+    message: |
+      Hello world ! :wave:
+- name: Check outputs
+  run: |
+    echo "id : ${{ steps.hello.outputs.id }}"
+    echo "body : ${{ steps.hello.outputs.body }}"
+    echo "html_url : ${{ steps.hello.outputs.html_url }}"
+```
+
 ## Permissions
 
 Depending on the permissions granted to your token, you may lack some rights. 

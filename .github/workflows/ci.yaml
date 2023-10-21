@@ -15,6 +15,7 @@ jobs:
 
       - name: Comment PR with message
         uses: ./
+        id: nrt_message
         with:
           message: |
             Current branch is `${{ github.head_ref }}`.
@@ -54,6 +55,12 @@ jobs:
           message: Should not be printed
           comment_tag: nrt_create_if_not_exists
           create_if_not_exists: false
+
+      - name: Check outputs
+        run: |
+          echo "id : ${{ steps.nrt_message.outputs.id }}"
+          echo "body : ${{ steps.nrt_message.outputs.body }}"
+          echo "html_url : ${{ steps.nrt_message.outputs.html_url }}"
 
       - name: (AFTER) Setup test cases
         run: rm /tmp/foobar.txt

@@ -55,6 +55,70 @@ async function run() {
       );
     }
 
+    async function createComment({
+      owner,
+      repo,
+      issue_number,
+      body,
+    }: {
+      owner: string;
+      repo: string;
+      issue_number: number;
+      body: string;
+    }) {
+      const { data: comment } = await octokit.rest.issues.createComment({
+        owner,
+        repo,
+        issue_number,
+        body,
+      });
+
+      core.setOutput('id', comment.id);
+      core.setOutput('body', comment.body);
+      core.setOutput('html_url', comment.html_url);
+
+      await addReactions(comment.id, reactions);
+
+      return comment;
+    }
+
+    async function updateComment({
+      owner,
+      repo,
+      comment_id,
+      body,
+    }: {
+      owner: string;
+      repo: string;
+      comment_id: number;
+      body: string;
+    }) {
+      const { data: comment } = await octokit.rest.issues.updateComment({
+        owner,
+        repo,
+        comment_id,
+        body,
+      });
+
+      core.setOutput('id', comment.id);
+      core.setOutput('body', comment.body);
+      core.setOutput('html_url', comment.html_url);
+
+      await addReactions(comment.id, reactions);
+
+      return comment;
+    }
+
+    async function deleteComment({ owner, repo, comment_id }: { owner: string; repo: string; comment_id: number }) {
+      const { data: comment } = await octokit.rest.issues.deleteComment({
+        owner,
+        repo,
+        comment_id,
+      });
+
+      return comment;
+    }
+
     const comment_tag_pattern = comment_tag
       ? `<!-- thollander/actions-comment-pull-request "${comment_tag}" -->`
       : null;
@@ -75,26 +139,23 @@ async function run() {
 
       if (comment) {
         if (mode === 'upsert') {
-          await octokit.rest.issues.updateComment({
+          await updateComment({
             ...context.repo,
             comment_id: comment.id,
             body,
           });
-          await addReactions(comment.id, reactions);
           return;
         } else if (mode === 'recreate') {
-          await octokit.rest.issues.deleteComment({
+          await deleteComment({
             ...context.repo,
             comment_id: comment.id,
           });
 
-          const { data: newComment } = await octokit.rest.issues.createComment({
+          await createComment({
             ...context.repo,
             issue_number,
             body,
           });
-
-          await addReactions(newComment.id, reactions);
           return;
         } else if (mode === 'delete') {
           core.debug('Registering this comment to be deleted.');
@@ -112,13 +173,11 @@ async function run() {
       }
     }
 
-    const { data: comment } = await octokit.rest.issues.createComment({
+    await createComment({
       ...context.repo,
       issue_number,
       body,
     });
-
-    await addReactions(comment.id, reactions);
   } catch (error) {
     if (error instanceof Error) {
       core.setFailed(error.message);
