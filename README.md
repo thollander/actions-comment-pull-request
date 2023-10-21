@@ -138,7 +138,7 @@ You can get some outputs from this actions :
 | `body` | Comment body |
 | `html_url` | URL of the comment created or updated |
 
-## Example 
+### Example output
 
 ```yaml
 - name: Comment PR
