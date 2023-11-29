@@ -11,6 +11,7 @@ async function run() {
   try {
     const message: string = core.getInput('message');
     const filePath: string = core.getInput('filePath');
+    const header: string = core.getInput('header');
     const mdLanguage: string = core.getInput('mdLanguage');
     const github_token: string = core.getInput('GITHUB_TOKEN');
     const pr_number: string = core.getInput('pr_number');
@@ -30,6 +31,10 @@ async function run() {
       if (mdLanguage) {
         content = `\`\`\`${mdLanguage}\n${content}\n\`\`\``;
       }
+    }
+
+    if (header) {
+      content = `# ${header}\n${content}`;
     }
 
     const context = github.context;
