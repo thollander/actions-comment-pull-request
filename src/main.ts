@@ -124,7 +124,7 @@ async function run() {
     }
 
     const comment_tag_pattern = comment_tag
-      ? `<!-- thollander/actions-comment-pull-request "${comment_tag}" -->`
+      ? `<!-- yorhodes/actions-comment-pull-request "${comment_tag}" -->`
       : null;
     const body = comment_tag_pattern ? `${content}\n${comment_tag_pattern}` : content;
 
