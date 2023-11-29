@@ -1,7 +1,7 @@
-import fs from 'fs';
-import * as github from '@actions/github';
 import * as core from '@actions/core';
+import * as github from '@actions/github';
 import { GetResponseDataTypeFromEndpointMethod } from '@octokit/types';
+import fs from 'fs';
 
 // See https://docs.github.com/en/rest/reactions#reaction-types
 const REACTIONS = ['+1', '-1', 'laugh', 'confused', 'heart', 'hooray', 'rocket', 'eyes'] as const;
@@ -11,7 +11,7 @@ async function run() {
   try {
     const message: string = core.getInput('message');
     const filePath: string = core.getInput('filePath');
-    const mdLanguage: string = core.getInput('filePath');
+    const mdLanguage: string = core.getInput('mdLanguage');
     const github_token: string = core.getInput('GITHUB_TOKEN');
     const pr_number: string = core.getInput('pr_number');
     const comment_tag: string = core.getInput('comment_tag');
@@ -26,12 +26,9 @@ async function run() {
 
     let content: string = message;
     if (!message && filePath) {
+      content = fs.readFileSync(filePath, 'utf8');
       if (mdLanguage) {
-        content += "\`\`\`${mdLanguage}\n";
-      }
-      content += fs.readFileSync(filePath, 'utf8');
-      if (mdLanguage) {
-        content += "\n\`\`\`";
+        content = `\`\`\`${mdLanguage}\n${content}\n\`\`\``;
       }
     }
 
