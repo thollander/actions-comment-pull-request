@@ -28,6 +28,13 @@ async function run() {
     let content: string = message;
     if (!message && filePath) {
       content = fs.readFileSync(filePath, 'utf8');
+
+      // exit if file is empty (and do not comment)
+      if (content.length === 0) {
+        core.info('File is empty. Exiting.');
+        return;
+      }
+
       if (mdLanguage) {
         content = `\`\`\`${mdLanguage}\n${content}\n\`\`\``;
       }
