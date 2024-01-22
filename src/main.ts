@@ -11,6 +11,7 @@ async function run() {
   try {
     const message: string = core.getInput('message');
     const filePath: string = core.getInput('filePath');
+    const cutDelimiter: string = core.getInput('cutDelimiter');
     const github_token: string = core.getInput('GITHUB_TOKEN');
     const pr_number: string = core.getInput('pr_number');
     const comment_tag: string = core.getInput('comment_tag');
@@ -72,6 +73,9 @@ async function run() {
         issue_number,
         body,
       });
+
+      console.log('body length', body.length)
+      console.log('comment', comment)
 
       core.setOutput('id', comment.id);
       core.setOutput('body', comment.body);
@@ -173,6 +177,7 @@ async function run() {
       }
     }
 
+    console.log('we are here !!!!')
     await createComment({
       ...context.repo,
       issue_number,
