@@ -159,6 +159,11 @@ async function run() {
           return;
         } else if (mode === 'delete') {
           core.debug('Registering this comment to be deleted.');
+          await deleteComment({
+            ...context.repo,
+            comment_id: comment.id,
+          });
+          return;
         } else {
           core.setFailed(`Mode ${mode} is unknown. Please use 'upsert', 'recreate' or 'delete'.`);
           return;
