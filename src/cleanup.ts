@@ -1,6 +1,5 @@
-import * as github from '@actions/github';
 import * as core from '@actions/core';
-import { GetResponseDataTypeFromEndpointMethod } from '@octokit/types';
+import * as github from '@actions/github';
 
 async function run() {
   try {
@@ -29,7 +28,7 @@ async function run() {
       return;
     }
 
-    const comment_tag_pattern = `<!-- thollander/actions-comment-pull-request "${comment_tag}" -->`;
+    const comment_tag_pattern = `<!-- yorhodes/actions-comment-pull-request "${comment_tag}" -->`;
 
     if (comment_tag_pattern) {
       for await (const { data: comments } of octokit.paginate.iterator(octokit.rest.issues.listComments, {

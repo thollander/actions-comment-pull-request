@@ -8,6 +8,10 @@ inputs:
     description: 'Message that should be printed in the pull request'
   filePath:
     description: 'Path of the file that should be commented'
+  header:
+    description: 'Header of the comment'
+  mdLanguage:
+    description: 'Syntax highlighting language for the comment (content from filePath)'
   GITHUB_TOKEN:
     description: 'Github token of the repository (automatically created by Github)'
     default: ${{ github.token }}
