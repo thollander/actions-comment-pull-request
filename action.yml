@@ -25,6 +25,6 @@ inputs:
     description: 'Whether a comment should be created even if comment_tag is not found.'
     default: 'true'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'lib/index.js'
   post: 'lib/cleanup/index.js'
