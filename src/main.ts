@@ -18,8 +18,8 @@ async function run() {
     const mode: string = core.getInput('mode');
     const create_if_not_exists: boolean = core.getInput('create_if_not_exists') === 'true';
 
-    if (!message && !filePath) {
-      core.setFailed('Either "filePath" or "message" should be provided as input');
+    if (!message && !filePath && mode !== 'only-delete') {
+      core.setFailed('Either "filePath" or "message" should be provided as input unless running as "only-delete".');
       return;
     }
 
@@ -157,12 +157,21 @@ async function run() {
             body,
           });
           return;
+        } else if (mode === 'only-delete') {
+          await deleteComment({
+            ...context.repo,
+            comment_id: comment.id,
+          });
+          return;
         } else if (mode === 'delete') {
           core.debug('Registering this comment to be deleted.');
         } else {
-          core.setFailed(`Mode ${mode} is unknown. Please use 'upsert', 'recreate' or 'delete'.`);
+          core.setFailed(`Mode ${mode} is unknown. Please use 'upsert', 'recreate', 'delete', or 'only-delete'.`);
           return;
         }
+      } else if (mode === 'only-delete') {
+        core.info('No comment has been found with asked pattern. Nothing to delete.');
+        return;
       } else if (create_if_not_exists) {
         core.info('No comment has been found with asked pattern. Creating a new comment.');
       } else {
