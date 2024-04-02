@@ -92,11 +92,10 @@ _That is particularly interesting while committing multiple times in a PR and th
 
 Note: the input `mode` can be used to either `upsert` (by default) or `recreate` the comment (= delete and create)
 
-### Delete a comment
+### Delete a comment on cleanup
 
-Deleting an existing comment is also possible thanks to the `comment_tag` input combined with `mode: delete`.
-
-This will delete the comment at the end of the job. 
+Deleting a comment upon job completion is possible with the `mode: delete` flag.
+The comment will be created initially, and on cleanup, it will be deleted.
 
 ```yml
 ...
@@ -110,7 +109,29 @@ This will delete the comment at the end of the job.
 
 ```
 
-## Inputs 
+### Delete a comment
+
+Deleting a comment with a specific `comment_tag` is possible with the
+`mode: only-delete` flag. If a comment with the `comment_tag` exists, it will
+be deleted when ran.
+
+```yml
+...
+- name: Create a comment
+  uses: thollander/actions-comment-pull-request@v2
+  with:
+    message: Example comment
+    comment_tag: to_delete
+
+- name: Delete the comment
+  uses: thollander/actions-comment-pull-request@v2
+  with:
+    comment_tag: to_delete
+    mode: only-delete
+
+```
+
+## Inputs
 
 ### Action inputs
 
