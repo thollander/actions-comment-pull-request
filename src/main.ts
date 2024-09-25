@@ -29,8 +29,8 @@ async function run() {
     }
 
     const context = github.context;
-    const owner: string = core.getInput('owner') || github.context.repo.owner;
-    const repo: string = core.getInput('repo') || github.context.repo.repo;
+    const owner: string = core.getInput('owner') || context.repo.owner;
+    const repo: string = core.getInput('repo') || context.repo.repo;
     const issue_number = parseInt(pr_number) || context.payload.pull_request?.number || context.payload.issue?.number;
 
     const octokit = github.getOctokit(github_token);
