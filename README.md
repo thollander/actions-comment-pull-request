@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Comment PR
-        uses: thollander/actions-comment-pull-request@v2
+        uses: yorhodes/actions-comment-pull-request@v2
         with:
           message: |
             Hello world ! :wave:
@@ -35,7 +35,7 @@ You can either pass an absolute filePath or a relative one that will be by defau
 
 ```yml
 - name: PR comment with file
-  uses: thollander/actions-comment-pull-request@v2
+  uses: yorhodes/actions-comment-pull-request@v2
   with:
     filePath: /path/to/file.txt
 ```
@@ -48,7 +48,7 @@ It takes only valid reactions and adds it to the comment you've just created. (S
 
 ```yml
 - name: PR comment with reactions
-  uses: thollander/actions-comment-pull-request@v2
+  uses: yorhodes/actions-comment-pull-request@v2
   with:
     message: |
       Hello world ! :wave:
@@ -63,7 +63,7 @@ That is particularly useful for manual workflow for instance (`workflow_run`).
 ```yml
 ...
 - name: Comment PR
-  uses: thollander/actions-comment-pull-request@v2
+  uses: yorhodes/actions-comment-pull-request@v2
   with:
     message: |
       Hello world ! :wave:
@@ -83,7 +83,7 @@ _That is particularly interesting while committing multiple times in a PR and th
 ```yml
 ...
 - name: Comment PR with execution number
-  uses: thollander/actions-comment-pull-request@v2
+  uses: yorhodes/actions-comment-pull-request@v2
   with:
     message: |
       _(execution **${{ github.run_id }}** / attempt **${{ github.run_attempt }}**)_
@@ -101,7 +101,7 @@ This will delete the comment at the end of the job.
 ```yml
 ...
 - name: Write a comment that will be deleted at the end of the job
-  uses: thollander/actions-comment-pull-request@v2
+  uses: yorhodes/actions-comment-pull-request@v2
   with:
     message: |
       The PR is being built...
@@ -142,7 +142,7 @@ You can get some outputs from this actions :
 
 ```yaml
 - name: Comment PR
-  uses: thollander/actions-comment-pull-request@v2
+  uses: yorhodes/actions-comment-pull-request@v2
   id: hello
   with:
     message: |
