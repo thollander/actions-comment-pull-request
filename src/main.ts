@@ -29,6 +29,8 @@ async function run() {
     }
 
     const context = github.context;
+    const owner: string = core.getInput('owner') || context.repo.owner;
+    const repo: string = core.getInput('repo') || context.repo.repo;
     const issue_number = parseInt(pr_number) || context.payload.pull_request?.number || context.payload.issue?.number;
 
     const octokit = github.getOctokit(github_token);
@@ -47,7 +49,8 @@ async function run() {
       await Promise.allSettled(
         validReactions.map(async (content) => {
           await octokit.rest.reactions.createForIssueComment({
-            ...context.repo,
+            owner,
+            repo,
             comment_id,
             content,
           });
@@ -130,7 +133,8 @@ async function run() {
       >;
       let comment: ListCommentsResponseDataType[0] | undefined;
       for await (const { data: comments } of octokit.paginate.iterator(octokit.rest.issues.listComments, {
-        ...context.repo,
+        owner,
+        repo,
         issue_number,
       })) {
         comment = comments.find((comment) => comment?.body?.includes(comment_tag_pattern));
@@ -140,19 +144,22 @@ async function run() {
       if (comment) {
         if (mode === 'upsert') {
           await updateComment({
-            ...context.repo,
+            owner,
+            repo,
             comment_id: comment.id,
             body,
           });
           return;
         } else if (mode === 'recreate') {
           await deleteComment({
-            ...context.repo,
+            owner,
+            repo,
             comment_id: comment.id,
           });
 
           await createComment({
-            ...context.repo,
+            owner,
+            repo,
             issue_number,
             body,
           });
@@ -174,7 +181,8 @@ async function run() {
     }
 
     await createComment({
-      ...context.repo,
+      owner,
+      repo,
       issue_number,
       body,
     });
