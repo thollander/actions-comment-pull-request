@@ -37,7 +37,7 @@
     "@tsconfig/node20": "^20.1.2",
     "@types/node": "^20.8.1",
     "@vercel/ncc": "^0.38.1",
-    "prettier": "^3.0.3",
+    "prettier": "^3.2.5",
     "typescript": "^5.3.3"
   }
 }
