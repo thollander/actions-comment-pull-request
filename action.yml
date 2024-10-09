@@ -6,23 +6,23 @@ description: 'Comments a pull request with the provided message'
 inputs:
   message:
     description: 'Message that should be printed in the pull request'
-  filePath:
+  file-path:
     description: 'Path of the file that should be commented'
-  GITHUB_TOKEN:
+  github-token:
     description: 'Github token of the repository (automatically created by Github)'
     default: ${{ github.token }}
     required: false
   reactions:
     description: 'You can set some reactions on your comments through the `reactions` input.'
-  pr_number:
+  pr-number:
     description: 'Manual pull request number'
-  comment_tag:
+  comment-tag:
     description: 'A tag on your comment that will be used to identify a comment in case of replacement.'
   mode:
-    description: 'Mode that will be used to update comment (upsert/recreate)'
+    description: 'Mode that will be used (upsert/recreate/delete/delete-on-completion)'
     default: 'upsert'
-  create_if_not_exists:
-    description: 'Whether a comment should be created even if comment_tag is not found.'
+  create-if-not-exists:
+    description: 'Whether a comment should be created even if comment-tag is not found.'
     default: 'true'
 runs:
   using: 'node20'

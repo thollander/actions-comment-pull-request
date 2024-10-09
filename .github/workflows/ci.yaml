@@ -15,37 +15,51 @@ jobs:
 
       - name: Comment PR with message
         uses: ./
-        id: nrt_message
+        id: nrt-message
         with:
           message: |
             Current branch is `${{ github.head_ref }}`.
             _(execution **${{ github.run_id }}** / attempt **${{ github.run_attempt }}**)_
-          comment_tag: nrt_message
+          comment-tag: nrt-message
           reactions: eyes, rocket
           mode: recreate
+
+      - name: Create a comment to delete it after
+        uses: ./
+        with:
+          message: |
+            This message will be deleted
+          comment-tag: nrt-message-delete
+          reactions: eyes
+
+      - name: Delete comment 
+        uses: ./
+        with:
+          comment-tag: nrt-message-delete
+          mode: delete
 
       - name: Comment PR with message that will be deleted
         uses: ./
         with:
           message: |
             This PR is being built... 
-          comment_tag: nrt_message_delete
+          comment-tag: nrt-message-delete-on-completion
           reactions: eyes
-          mode: delete
+          mode: delete-on-completion
 
       - name: Comment PR with file
         uses: ./
         with:
-          filePath: README.md
-          comment_tag: nrt_file
+          file-path: README.md
+          comment-tag: nrt-file
           reactions: eyes, rocket
           mode: recreate
 
       - name: Comment PR with file (absolute path)
         uses: ./
         with:
-          filePath: /tmp/foobar.txt
-          comment_tag: nrt_file_absolute
+          file-path: /tmp/foobar.txt
+          comment-tag: nrt-file-absolute
           reactions: eyes, rocket
           mode: recreate
 
@@ -53,14 +67,14 @@ jobs:
         uses: ./
         with:
           message: Should not be printed
-          comment_tag: nrt_create_if_not_exists
-          create_if_not_exists: false
+          comment-tag: nrt-create-if-not-exists
+          create-if-not-exists: false
 
       - name: Check outputs
         run: |
-          echo "id : ${{ steps.nrt_message.outputs.id }}"
-          echo "body : ${{ steps.nrt_message.outputs.body }}"
-          echo "html_url : ${{ steps.nrt_message.outputs.html_url }}"
+          echo "id : ${{ steps.nrt-message.outputs.id }}"
+          echo "body : ${{ steps.nrt-message.outputs.body }}"
+          echo "html-url : ${{ steps.nrt-message.outputs.html-url }}"
 
       - name: (AFTER) Setup test cases
         run: rm /tmp/foobar.txt
