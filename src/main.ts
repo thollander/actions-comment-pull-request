@@ -93,12 +93,15 @@ async function run() {
       comment_id: number;
       body: string;
     }) {
-      const { data: comment } = await octokit.rest.issues.updateComment({
+      const params = {
         owner,
         repo,
         comment_id,
-        body,
-      });
+      };
+
+      const { data: comment } = await (body
+        ? octokit.rest.issues.updateComment({ ...params, body })
+        : octokit.rest.issues.getComment(params));
 
       core.setOutput('id', comment.id);
       core.setOutput('body', comment.body);
