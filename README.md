@@ -29,15 +29,15 @@ jobs:
 
 ### Comment a file content
 
-Thanks to the `filePath` input, a file content can be commented.
-You can either pass an absolute filePath or a relative one that will be by default retrieved from `GITHUB_WORKSPACE`. 
-(Note that if both a `message` and `filePath` are provided, `message` will take precedence.)
+Thanks to the `file-path'` input, a file content can be commented.
+You can either pass an absolute file-path' or a relative one that will be by default retrieved from `GITHUB_WORKSPACE`. 
+(Note that if both a `message` and `file-path'` are provided, `message` will take precedence.)
 
 ```yml
 - name: PR comment with file
   uses: thollander/actions-comment-pull-request@v3
   with:
-    filePath: /path/to/file.txt
+    file-path': /path/to/file.txt
 ```
 
 
