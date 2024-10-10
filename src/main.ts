@@ -10,16 +10,16 @@ type Reaction = (typeof REACTIONS)[number];
 async function run() {
   try {
     const message: string = core.getInput('message');
-    const filePath: string = core.getInput('filePath');
-    const github_token: string = core.getInput('GITHUB_TOKEN');
-    const pr_number: string = core.getInput('pr_number');
-    const comment_tag: string = core.getInput('comment_tag');
+    const filePath: string = core.getInput('file-path');
+    const githubToken: string = core.getInput('github-token');
+    const prNumber: string = core.getInput('pr-number');
+    const commentTag: string = core.getInput('comment-tag');
     const reactions: string = core.getInput('reactions');
     const mode: string = core.getInput('mode');
-    const create_if_not_exists: boolean = core.getInput('create_if_not_exists') === 'true';
+    const createIfNotExists: boolean = core.getInput('create-if-not-exists') === 'true';
 
-    if (!message && !filePath) {
-      core.setFailed('Either "filePath" or "message" should be provided as input');
+    if (!message && !filePath && mode !== 'delete') {
+      core.setFailed('Either "filePath" or "message" should be provided as input unless running as "delete".');
       return;
     }
 
@@ -29,16 +29,16 @@ async function run() {
     }
 
     const context = github.context;
-    const issue_number = parseInt(pr_number) || context.payload.pull_request?.number || context.payload.issue?.number;
+    const issueNumber = parseInt(prNumber) || context.payload.pull_request?.number || context.payload.issue?.number;
 
-    const octokit = github.getOctokit(github_token);
+    const octokit = github.getOctokit(githubToken);
 
-    if (!issue_number) {
+    if (!issueNumber) {
       core.setFailed('No issue/pull request in input neither in current context.');
       return;
     }
 
-    async function addReactions(comment_id: number, reactions: string) {
+    async function addReactions(commentId: number, reactions: string) {
       const validReactions = <Reaction[]>reactions
         .replace(/\s/g, '')
         .split(',')
@@ -48,7 +48,7 @@ async function run() {
         validReactions.map(async (content) => {
           await octokit.rest.reactions.createForIssueComment({
             ...context.repo,
-            comment_id,
+            comment_id: commentId,
             content,
           });
         }),
@@ -58,24 +58,24 @@ async function run() {
     async function createComment({
       owner,
       repo,
-      issue_number,
+      issueNumber,
       body,
     }: {
       owner: string;
       repo: string;
-      issue_number: number;
+      issueNumber: number;
       body: string;
     }) {
       const { data: comment } = await octokit.rest.issues.createComment({
         owner,
         repo,
-        issue_number,
+        issue_number: issueNumber,
         body,
       });
 
       core.setOutput('id', comment.id);
       core.setOutput('body', comment.body);
-      core.setOutput('html_url', comment.html_url);
+      core.setOutput('html-url', comment.html_url);
 
       await addReactions(comment.id, reactions);
 
@@ -85,55 +85,53 @@ async function run() {
     async function updateComment({
       owner,
       repo,
-      comment_id,
+      commentId,
       body,
     }: {
       owner: string;
       repo: string;
-      comment_id: number;
+      commentId: number;
       body: string;
     }) {
       const { data: comment } = await octokit.rest.issues.updateComment({
         owner,
         repo,
-        comment_id,
+        comment_id: commentId,
         body,
       });
 
       core.setOutput('id', comment.id);
       core.setOutput('body', comment.body);
-      core.setOutput('html_url', comment.html_url);
+      core.setOutput('html-url', comment.html_url);
 
       await addReactions(comment.id, reactions);
 
       return comment;
     }
 
-    async function deleteComment({ owner, repo, comment_id }: { owner: string; repo: string; comment_id: number }) {
+    async function deleteComment({ owner, repo, commentId }: { owner: string; repo: string; commentId: number }) {
       const { data: comment } = await octokit.rest.issues.deleteComment({
         owner,
         repo,
-        comment_id,
+        comment_id: commentId,
       });
 
       return comment;
     }
 
-    const comment_tag_pattern = comment_tag
-      ? `<!-- thollander/actions-comment-pull-request "${comment_tag}" -->`
-      : null;
-    const body = comment_tag_pattern ? `${content}\n${comment_tag_pattern}` : content;
+    const commentTagPattern = commentTag ? `<!-- thollander/actions-comment-pull-request "${commentTag}" -->` : null;
+    const body = commentTagPattern ? `${content}\n${commentTagPattern}` : content;
 
-    if (comment_tag_pattern) {
+    if (commentTagPattern) {
       type ListCommentsResponseDataType = GetResponseDataTypeFromEndpointMethod<
         typeof octokit.rest.issues.listComments
       >;
       let comment: ListCommentsResponseDataType[0] | undefined;
       for await (const { data: comments } of octokit.paginate.iterator(octokit.rest.issues.listComments, {
         ...context.repo,
-        issue_number,
+        issue_number: issueNumber,
       })) {
-        comment = comments.find((comment) => comment?.body?.includes(comment_tag_pattern));
+        comment = comments.find((comment) => comment?.body?.includes(commentTagPattern));
         if (comment) break;
       }
 
@@ -141,29 +139,40 @@ async function run() {
         if (mode === 'upsert') {
           await updateComment({
             ...context.repo,
-            comment_id: comment.id,
+            commentId: comment.id,
             body,
           });
           return;
         } else if (mode === 'recreate') {
           await deleteComment({
             ...context.repo,
-            comment_id: comment.id,
+            commentId: comment.id,
           });
 
           await createComment({
             ...context.repo,
-            issue_number,
+            issueNumber,
             body,
           });
           return;
         } else if (mode === 'delete') {
+          await deleteComment({
+            ...context.repo,
+            commentId: comment.id,
+          });
+          return;
+        } else if (mode === 'delete-on-completion') {
           core.debug('Registering this comment to be deleted.');
         } else {
-          core.setFailed(`Mode ${mode} is unknown. Please use 'upsert', 'recreate' or 'delete'.`);
+          core.setFailed(
+            `Mode ${mode} is unknown. Please use 'upsert', 'recreate', 'delete' or 'delete-on-completion'.`,
+          );
           return;
         }
-      } else if (create_if_not_exists) {
+      } else if (mode === 'delete') {
+        core.info('No comment has been found with asked pattern. Nothing to delete.');
+        return;
+      } else if (createIfNotExists) {
         core.info('No comment has been found with asked pattern. Creating a new comment.');
       } else {
         core.info(
@@ -175,7 +184,7 @@ async function run() {
 
     await createComment({
       ...context.repo,
-      issue_number,
+      issueNumber,
       body,
     });
   } catch (error) {

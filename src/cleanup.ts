@@ -1,42 +1,41 @@
 import * as github from '@actions/github';
 import * as core from '@actions/core';
-import { GetResponseDataTypeFromEndpointMethod } from '@octokit/types';
 
 async function run() {
   try {
-    const github_token: string = core.getInput('GITHUB_TOKEN');
-    const pr_number: string = core.getInput('pr_number');
-    const comment_tag: string = core.getInput('comment_tag');
+    const githubToken: string = core.getInput('github-token');
+    const prNumber: string = core.getInput('pr-number');
+    const commentTag: string = core.getInput('comment-tag');
     const mode: string = core.getInput('mode');
 
-    if (mode !== 'delete') {
-      core.debug('This comment was not to be deleted. Skipping');
+    if (mode !== 'delete-on-completion') {
+      core.debug('This comment was not to be deleted on completion. Skipping');
       return;
     }
 
-    if (!comment_tag) {
+    if (!commentTag) {
       core.debug("No 'comment_tag' parameter passed in. Cannot search for something to delete.");
       return;
     }
 
     const context = github.context;
-    const issue_number = parseInt(pr_number) || context.payload.pull_request?.number || context.payload.issue?.number;
+    const issueNumber = parseInt(prNumber) || context.payload.pull_request?.number || context.payload.issue?.number;
 
-    const octokit = github.getOctokit(github_token);
+    const octokit = github.getOctokit(githubToken);
 
-    if (!issue_number) {
+    if (!issueNumber) {
       core.setFailed('No issue/pull request in input neither in current context.');
       return;
     }
 
-    const comment_tag_pattern = `<!-- thollander/actions-comment-pull-request "${comment_tag}" -->`;
+    const commentTagPattern = `<!-- thollander/actions-comment-pull-request "${commentTag}" -->`;
 
-    if (comment_tag_pattern) {
+    if (commentTagPattern) {
       for await (const { data: comments } of octokit.paginate.iterator(octokit.rest.issues.listComments, {
         ...context.repo,
-        issue_number,
+        issue_number: issueNumber,
       })) {
-        const commentsToDelete = comments.filter((comment) => comment?.body?.includes(comment_tag_pattern));
+        const commentsToDelete = comments.filter((comment) => comment?.body?.includes(commentTagPattern));
         for (const commentToDelete of commentsToDelete) {
           core.info(`Deleting comment ${commentToDelete.id}.`);
           await octokit.rest.issues.deleteComment({

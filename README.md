@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Comment PR
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@v3
         with:
           message: |
             Hello world ! :wave:
@@ -35,7 +35,7 @@ You can either pass an absolute filePath or a relative one that will be by defau
 
 ```yml
 - name: PR comment with file
-  uses: thollander/actions-comment-pull-request@v2
+  uses: thollander/actions-comment-pull-request@v3
   with:
     filePath: /path/to/file.txt
 ```
@@ -48,7 +48,7 @@ It takes only valid reactions and adds it to the comment you've just created. (S
 
 ```yml
 - name: PR comment with reactions
-  uses: thollander/actions-comment-pull-request@v2
+  uses: thollander/actions-comment-pull-request@v3
   with:
     message: |
       Hello world ! :wave:
@@ -63,7 +63,7 @@ That is particularly useful for manual workflow for instance (`workflow_run`).
 ```yml
 ...
 - name: Comment PR
-  uses: thollander/actions-comment-pull-request@v2
+  uses: thollander/actions-comment-pull-request@v3
   with:
     message: |
       Hello world ! :wave:
@@ -83,7 +83,7 @@ _That is particularly interesting while committing multiple times in a PR and th
 ```yml
 ...
 - name: Comment PR with execution number
-  uses: thollander/actions-comment-pull-request@v2
+  uses: thollander/actions-comment-pull-request@v3
   with:
     message: |
       _(execution **${{ github.run_id }}** / attempt **${{ github.run_attempt }}**)_
@@ -94,20 +94,33 @@ Note: the input `mode` can be used to either `upsert` (by default) or `recreate`
 
 ### Delete a comment
 
-Deleting an existing comment is also possible thanks to the `comment_tag` input combined with `mode: delete`.
+
+Deleting a comment with a specific `comment_tag` is possible with the `mode: delete`. If a comment with the `comment_tag` exists, it will be deleted when ran.
+
+```yml
+...
+- name: Delete a comment
+  uses: thollander/actions-comment-pull-request@v3
+  with:
+    comment_tag: to_delete
+    mode: delete
+```
+
+### Delete a comment on job completion
+
+Deleting an existing comment on job completion is also possible thanks to the `comment_tag` input combined with `mode: delete-on-completion`.
 
 This will delete the comment at the end of the job. 
 
 ```yml
 ...
 - name: Write a comment that will be deleted at the end of the job
-  uses: thollander/actions-comment-pull-request@v2
+  uses: thollander/actions-comment-pull-request@v3
   with:
     message: |
       The PR is being built...
-    comment_tag: to_delete
-    mode: delete
-
+    comment_tag: to_delete_on_completion
+    mode: delete-on-completion
 ```
 
 ## Inputs 
@@ -116,14 +129,14 @@ This will delete the comment at the end of the job.
 
 | Name | Description | Required | Default |
 | --- | --- | --- | --- |
-| `GITHUB_TOKEN` | Token that is used to create comments. Defaults to ${{ github.token }} | ✅ | |
+| `github-token` | Token that is used to create comments. Defaults to ${{ github.token }} | ✅ | |
 | `message` | Comment body | | |
-| `filePath` | Path of the file that should be commented | | |
+| `file-path` | Path of the file that should be commented | | |
 | `reactions` | List of reactions for the comment (comma separated). See https://docs.github.com/en/rest/reactions#reaction-types  | | |
-| `pr_number` | The number of the pull request where to create the comment | | current pull-request/issue number (deduced from context) |
-| `comment_tag` | A tag on your comment that will be used to identify a comment in case of replacement | | |
-| `mode` | Mode that will be used to update comment (upsert/recreate/delete) | | upsert |
-| `create_if_not_exists` | Whether a comment should be created even if `comment_tag` is not found | | true |
+| `pr-number` | The number of the pull request where to create the comment | | current pull-request/issue number (deduced from context) |
+| `comment-tag` | A tag on your comment that will be used to identify a comment in case of replacement | | |
+| `mode` | Mode that will be used to update comment (upsert/recreate/delete/delete-on-completion) | | upsert |
+| `create-if-not-exists` | Whether a comment should be created even if `comment-tag` is not found | | true |
 
 
 ## Outputs 
@@ -136,13 +149,13 @@ You can get some outputs from this actions :
 | --- | --- |
 | `id` | Comment id that was created or updated | 
 | `body` | Comment body |
-| `html_url` | URL of the comment created or updated |
+| `html-url` | URL of the comment created or updated |
 
 ### Example output
 
 ```yaml
 - name: Comment PR
-  uses: thollander/actions-comment-pull-request@v2
+  uses: thollander/actions-comment-pull-request@v3
   id: hello
   with:
     message: |
@@ -151,7 +164,7 @@ You can get some outputs from this actions :
   run: |
     echo "id : ${{ steps.hello.outputs.id }}"
     echo "body : ${{ steps.hello.outputs.body }}"
-    echo "html_url : ${{ steps.hello.outputs.html_url }}"
+    echo "html-url : ${{ steps.hello.outputs.html-url }}"
 ```
 
 ## Permissions
