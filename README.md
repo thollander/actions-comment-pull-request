@@ -5,6 +5,10 @@
 A GitHub action that comments with a given message the pull request linked to the pushed branch.
 You can even put dynamic data thanks to [Contexts and expression syntax](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/contexts-and-expression-syntax-for-github-actions).
 
+## Update notice
+
+If you update from `v2` to `v3`, you need to replace `comment_tag` by `comment-tag`.
+
 ## Usage
 
 ### Classic usage
