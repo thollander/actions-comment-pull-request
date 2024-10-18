@@ -73,7 +73,7 @@ That is particularly useful for manual workflow for instance (`workflow_run`).
 
 ### Update a comment
 
-Editing an existing comment is also possible thanks to the `comment_tag` input.
+Editing an existing comment is also possible thanks to the `comment-tag` input.
 
 Thanks to this parameter, it will be possible to identify your comment and then to upsert on it. 
 If the comment is not found at first, it will create a new comment.
@@ -87,7 +87,7 @@ _That is particularly interesting while committing multiple times in a PR and th
   with:
     message: |
       _(execution **${{ github.run_id }}** / attempt **${{ github.run_attempt }}**)_
-    comment_tag: execution
+    comment-tag: execution
 ```
 
 Note: the input `mode` can be used to either `upsert` (by default) or `recreate` the comment (= delete and create)
@@ -95,20 +95,20 @@ Note: the input `mode` can be used to either `upsert` (by default) or `recreate`
 ### Delete a comment
 
 
-Deleting a comment with a specific `comment_tag` is possible with the `mode: delete`. If a comment with the `comment_tag` exists, it will be deleted when ran.
+Deleting a comment with a specific `comment-tag` is possible with the `mode: delete`. If a comment with the `comment-tag` exists, it will be deleted when ran.
 
 ```yml
 ...
 - name: Delete a comment
   uses: thollander/actions-comment-pull-request@v3
   with:
-    comment_tag: to_delete
+    comment-tag: to_delete
     mode: delete
 ```
 
 ### Delete a comment on job completion
 
-Deleting an existing comment on job completion is also possible thanks to the `comment_tag` input combined with `mode: delete-on-completion`.
+Deleting an existing comment on job completion is also possible thanks to the `comment-tag` input combined with `mode: delete-on-completion`.
 
 This will delete the comment at the end of the job. 
 
@@ -119,7 +119,7 @@ This will delete the comment at the end of the job.
   with:
     message: |
       The PR is being built...
-    comment_tag: to_delete_on_completion
+    comment-tag: to_delete_on_completion
     mode: delete-on-completion
 ```
 
