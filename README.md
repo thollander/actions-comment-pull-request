@@ -57,7 +57,7 @@ It takes only valid reactions and adds it to the comment you've just created. (S
 
 ### Specifying which pull request to comment on
 
-You can explicitly input which pull request should be commented on by passing the `pr_number` input.
+You can explicitly input which pull request should be commented on by passing the `pr-number` input.
 That is particularly useful for manual workflow for instance (`workflow_run`).
 
 ```yml
@@ -67,7 +67,7 @@ That is particularly useful for manual workflow for instance (`workflow_run`).
   with:
     message: |
       Hello world ! :wave:
-    pr_number: 123 # This will comment on pull request #123
+    pr-number: 123 # This will comment on pull request #123
 ```
 
 
