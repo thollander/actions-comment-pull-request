@@ -14,7 +14,7 @@ async function run() {
     }
 
     if (!commentTag) {
-      core.debug("No 'comment_tag' parameter passed in. Cannot search for something to delete.");
+      core.debug("No 'comment-tag' parameter passed in. Cannot search for something to delete.");
       return;
     }
 
