@@ -19,7 +19,7 @@ async function run() {
     const createIfNotExists: boolean = core.getInput('create-if-not-exists') === 'true';
 
     if (!message && !filePath && mode !== 'delete') {
-      core.setFailed('Either "filePath" or "message" should be provided as input unless running as "delete".');
+      core.setFailed('Either "file-path" or "message" should be provided as input unless running as "delete".');
       return;
     }
 
@@ -176,7 +176,7 @@ async function run() {
         core.info('No comment has been found with asked pattern. Creating a new comment.');
       } else {
         core.info(
-          'Not creating comment as the pattern has not been found. Use `create_if_not_exists: true` to create a new comment anyway.',
+          'Not creating comment as the pattern has not been found. Use `create-if-not-exists: true` to create a new comment anyway.',
         );
         return;
       }
